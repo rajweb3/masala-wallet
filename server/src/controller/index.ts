@@ -5,18 +5,20 @@ import {
   internalServerError,
 } from "../config/commonResponse";
 import { ChainId } from "../config/networkConfig";
+import { createWalletService } from "../services/wallet/createWallet";
 
 export const createWalletController = async (req: Request, res: Response) => {
   try {
     const validation = Joi.object({
-      userName: Joi.string().min(50).required(),
-      passwordHash: Joi.string().min(255).required(),
+      userName: Joi.string().max(50).required(),
+      passwordHash: Joi.string().max(255).required(),
     });
 
     const responseValidation = validation.validate(req.body);
     if (responseValidation.error) {
       return responseInvalidArgumentsError(res, responseValidation);
     }
+    return await createWalletService(req, res);
   } catch (error: any) {
     return internalServerError(res, error);
   }
@@ -25,10 +27,10 @@ export const createWalletController = async (req: Request, res: Response) => {
 export const executeTxController = async (req: Request, res: Response) => {
   try {
     const validation = Joi.object({
-      callee: Joi.string().min(50).required(),
+      callee: Joi.string().max(50).required(),
       value: Joi.required(),
       data: Joi.required(),
-      passwordHash: Joi.string().min(255).required(),
+      passwordHash: Joi.string().max(255).required(),
       chainId: Joi.number()
         .valid(...Object.values(ChainId))
         .required(),
@@ -46,7 +48,7 @@ export const executeTxController = async (req: Request, res: Response) => {
 export const setupGuardianController = async (req: Request, res: Response) => {
   try {
     const validation = Joi.object({
-      passwordHash: Joi.string().min(255).required(),
+      passwordHash: Joi.string().max(255).required(),
     });
 
     const responseValidation = validation.validate(req.body);
