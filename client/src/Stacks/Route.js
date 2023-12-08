@@ -19,7 +19,7 @@ const Route = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName={Screens.RecoveryPassword}
+        initialRouteName={Screens.BottomBar}
       >
         <Stack.Screen name={Screens.BottomBar} component={BottomBar} />
         <Stack.Screen

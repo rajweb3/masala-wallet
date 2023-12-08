@@ -16,9 +16,12 @@ import { Button, Card, SegmentedButtons } from "react-native-paper";
 import { Images } from "../Constants/Images";
 import { KeyCard, TransCard } from "./TransactScreen";
 import { GuardianCard } from "./GuardianScreen";
+import { useNavigation } from "@react-navigation/native";
+import { Screens } from "../Stacks/Screens";
 
 const RecoveryScreen = () => {
   const [value, setValue] = React.useState("Open Txs");
+  const navigation = useNavigation();
 
   return (
     <View style={styles.cont}>
@@ -37,7 +40,12 @@ const RecoveryScreen = () => {
         <GuardianCard isBorderShow={true} hideCheckBox={true} />
         <GuardianCard isBorderShow={true} hideCheckBox={true} />
         <GuardianCard hideCheckBox={true} />
-        <OutLineButton text={"Initiate Recovery"} />
+        <OutLineButton
+          text={"Initiate Recovery"}
+          onPress={() => {
+            navigation.navigate(Screens.RecoveryPassword);
+          }}
+        />
       </ScrollView>
     </View>
   );
@@ -47,7 +55,7 @@ export default RecoveryScreen;
 
 const styles = StyleSheet.create({});
 
-const OutLineButton = ({ text }) => {
+const OutLineButton = ({ text, onPress }) => {
   return (
     <Button
       mode="outlined"
@@ -59,7 +67,7 @@ const OutLineButton = ({ text }) => {
         alignSelf: "center",
         borderColor: Colors.yellow,
       }}
-      onPress={() => {}}
+      onPress={onPress}
     >
       {text}
     </Button>
