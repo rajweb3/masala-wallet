@@ -11,6 +11,8 @@ export const Screens = {
   ConfirmGuardian: "ConfirmGuardian",
   Settings: "Settings",
   BottomBar: "BottomBar",
+  InitiateRecovery: "InitiateRecovery",
+  RecoveryPassword: "RecoveryPassword",
 
   Wallet: "Wallet",
   Transact: "Transact",

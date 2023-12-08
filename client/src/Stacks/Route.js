@@ -8,6 +8,10 @@ import TransactScreen from "../Screens/TransactScreen";
 import RecoveryScreen from "../Screens/RecoveryScreen";
 import ActivityScreen from "../Screens/ActivityScreen";
 import { Colors } from "../Constants/Colors";
+import InitiateRecoveryScreen from "../Screens/InitiateRecoveryScreen";
+import RecoveryPasswordScreen from "../Screens/RecoveryPasswordScreen";
+import AuthLoadingScreen from "../Screens/AuthLoadingScreen";
+import AuthSuccessScreen from "../Screens/AuthSuccessScreen";
 
 const Route = () => {
   const Stack = createNativeStackNavigator();
@@ -15,9 +19,25 @@ const Route = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName={Screens.BottomBar}
+        initialRouteName={Screens.RecoveryPassword}
       >
         <Stack.Screen name={Screens.BottomBar} component={BottomBar} />
+        <Stack.Screen
+          name={Screens.InitiateRecovery}
+          component={InitiateRecoveryScreen}
+        />
+        <Stack.Screen
+          name={Screens.RecoveryPassword}
+          component={RecoveryPasswordScreen}
+        />
+        <Stack.Screen
+          name={Screens.AuthLoading}
+          component={AuthLoadingScreen}
+        />
+        <Stack.Screen
+          name={Screens.AuthSuccess}
+          component={AuthSuccessScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

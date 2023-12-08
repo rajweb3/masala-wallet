@@ -3,6 +3,7 @@ import React from "react";
 import Route from "./src/Stacks/Route";
 import { PaperProvider, MD3LightTheme } from "react-native-paper";
 import { Colors } from "./src/Constants/Colors";
+import Toast from "react-native-toast-message";
 
 const App = () => {
   const theme = {
@@ -17,6 +18,7 @@ const App = () => {
   return (
     <PaperProvider theme={theme}>
       <Route />
+      <Toast />
     </PaperProvider>
   );
 };
