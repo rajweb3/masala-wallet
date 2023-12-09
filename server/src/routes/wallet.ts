@@ -4,7 +4,7 @@ import {
   executeTxController,
   getBalanceController,
   txHistoryController,
-} from "../controller";
+} from "../controller/wallet";
 const route = express.Router();
 
 route.post("/create", createWalletController);
