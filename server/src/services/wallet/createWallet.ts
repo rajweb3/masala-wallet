@@ -2,42 +2,51 @@ import { ethers } from "ethers";
 import { Request, Response } from "express";
 import {
   internalServerError,
-  requestFailed,
   responseSuccess,
 } from "../../config/commonResponse";
 import httpStatus from "../../config/httpStatus";
-import { ChainId, getNetworkInformation } from "../../config/networkConfig";
+import { networkInfo } from "../../config/networkConfig";
 import { BasicFactoryContract } from "../../config/abis/BasicFactoryContract";
 
 export const createWalletService = async (req: Request, res: Response) => {
   try {
     const { userName, passwordHash } = req.body;
+    let txHahsForNetwork: { network: string; hash: string }[] = [];
+    for (let i = 0; i < networkInfo.length; i++) {
+      const network = networkInfo[i];
 
-    const network = getNetworkInformation(ChainId.MANTLE_TESTNET);
-    if (!network.status || !network.data) {
-      return requestFailed(res, httpStatus.BAD_REQUEST, network.message);
+      if (!network.status) {
+        continue;
+      }
+
+      const provider = new ethers.providers.JsonRpcProvider(
+        network.providerUrl
+      );
+
+      const wallet = new ethers.Wallet(
+        process.env?.WALLET_PRIVATE_KEY || "",
+        provider
+      );
+      const contract = new ethers.Contract(
+        network.contractAddress,
+        BasicFactoryContract,
+        wallet
+      );
+
+      try {
+        const tx = await contract.newWallet(userName, passwordHash);
+
+        await tx.wait();
+        txHahsForNetwork.push({
+          network: `${network.name}`,
+          hash: `${network.explorer}/tx/${tx?.hash}`,
+        });
+      } catch (error: any) {
+        console.log("error", error);
+      }
     }
 
-    const provider = new ethers.providers.JsonRpcProvider(
-      network.data.providerUrl
-    );
-
-    const wallet = new ethers.Wallet(
-      process.env?.WALLET_PRIVATE_KEY || "",
-      provider
-    );
-    const contract = new ethers.Contract(
-      process.env?.BASIC_FACTORY_CONTRACT || "",
-      BasicFactoryContract,
-      wallet
-    );
-
-    const tx = await contract.newWallet(userName, passwordHash);
-
-    await tx.wait();
-    return responseSuccess(res, httpStatus.CREATED, {
-      hash: `${network.data.explorer}/tx/${tx?.hash}`,
-    });
+    return responseSuccess(res, httpStatus.CREATED, txHahsForNetwork);
   } catch (error: any) {
     return internalServerError(res, error.message);
   }

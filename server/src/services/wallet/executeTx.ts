@@ -27,7 +27,7 @@ export const executeTxService = async (req: Request, res: Response) => {
       provider
     );
     const contract = new ethers.Contract(
-      process.env?.BASIC_FACTORY_CONTRACT || "",
+      network.data.contractAddress,
       BasicFactoryContract,
       wallet
     );
