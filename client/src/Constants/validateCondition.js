@@ -42,6 +42,19 @@ const validateEmail = (email, t) => {
   }
 };
 
+const validateAddress = (email, t) => {
+  const emailSchema = z
+    .string()
+    .min(42, { message: "Address must be 42 characters long" })
+    .max(42, { message: "Address must be 42 characters long" });
+  try {
+    emailSchema.parse(email);
+    return [];
+  } catch (error) {
+    return error.format()._errors;
+  }
+};
+
 const validateName = (nameVar, name, t) => {
   const emailSchema = z
     .string()
@@ -73,4 +86,10 @@ const validateMobileNo = (mobile, t) => {
   }
 };
 
-export { validatePassword, validateEmail, validateName, validateMobileNo };
+export {
+  validatePassword,
+  validateEmail,
+  validateName,
+  validateMobileNo,
+  validateAddress,
+};

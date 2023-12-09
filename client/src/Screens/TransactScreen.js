@@ -7,9 +7,11 @@ import { textStyle } from "../Constants/textStyle";
 import { Card } from "react-native-paper";
 import { Images } from "../Constants/Images";
 import { ComingSoonModal } from "../Components/ComingSoonModal";
+import { TransferCurrencyModal } from "../Components/TransferCurrencyModal";
 
 const TransactScreen = () => {
   const [comingSoonVisible, setComingSoonVisible] = useState(false);
+  const [transVisible, setTransVisible] = useState(false);
 
   return (
     <View style={styles.cont}>
@@ -18,7 +20,9 @@ const TransactScreen = () => {
       <TransCard
         imgSrc={Images.qrCode}
         text={"Transfer Currency"}
-        onPress={() => {}}
+        onPress={() => {
+          setTransVisible(true);
+        }}
       />
       <TransCard
         imgSrc={Images.transferToken}
@@ -38,6 +42,12 @@ const TransactScreen = () => {
         visible={comingSoonVisible}
         onPressCancel={() => {
           setComingSoonVisible(false);
+        }}
+      />
+      <TransferCurrencyModal
+        visible={transVisible}
+        onPressCancel={() => {
+          setTransVisible(false);
         }}
       />
     </View>

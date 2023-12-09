@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { LogBox, StyleSheet } from "react-native";
 import React from "react";
 import Route from "./src/Stacks/Route";
 import { PaperProvider, MD3LightTheme } from "react-native-paper";
@@ -27,6 +27,8 @@ const App = () => {
       universal: "YOUR_APP_UNIVERSAL_LINK.com",
     },
   };
+
+  LogBox.ignoreAllLogs(); //Ignore all log notifications
 
   const theme = {
     ...MD3LightTheme,

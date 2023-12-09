@@ -153,6 +153,7 @@ export const AuthInput = ({
   isPassword,
   onChangeText,
   value,
+  otherStyle,
 }) => {
   const [isPasswordShow, setIsPasswordShow] = useState();
   return (
@@ -160,11 +161,14 @@ export const AuthInput = ({
       mode="outlined"
       label={label}
       placeholder={placeholder}
-      style={{
-        width: wp("90"),
-        marginTop: wp("6"),
-        backgroundColor: Colors.white,
-      }}
+      style={[
+        {
+          width: wp("90"),
+          marginTop: wp("6"),
+          backgroundColor: Colors.white,
+        },
+        otherStyle,
+      ]}
       outlineStyle={{ borderColor: Colors.yellow }}
       value={value}
       onChangeText={onChangeText}

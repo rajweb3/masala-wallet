@@ -40,7 +40,12 @@ const StartScreen = () => {
     <View style={styles.cont}>
       <Image
         source={Images.Splash}
-        style={{ width: wp(100), height: wp(100) }}
+        style={{
+          width: wp(64),
+          height: wp(64),
+          marginBottom: wp("20"),
+          alignSelf: "center",
+        }}
         resizeMode="contain"
       />
       <Button

@@ -54,6 +54,7 @@ const AuthLoadingScreen = () => {
               isSignUp: isSignUp,
             });
             AsyncStorage.setItem(AsData.LoginDone, "RecoverySetup");
+            AsyncStorage.setItem(AsData.LoginData, JSON.stringify(body));
           })
           .catch((err) => {
             console.log("err local", err);
