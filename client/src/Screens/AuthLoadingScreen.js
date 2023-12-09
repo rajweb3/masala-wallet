@@ -50,9 +50,10 @@ const AuthLoadingScreen = () => {
           .post(BASE_URL + WALLET_CREATE, body)
           .then((res) => {
             console.log("res local", res);
-            navigation.replace(Screens.RecoveryGuardians);
+            navigation.replace(Screens.AuthSuccess, {
+              isSignUp: isSignUp,
+            });
             AsyncStorage.setItem(AsData.LoginDone, "RecoverySetup");
-            // navigation.reset({ routes: [{ name: Screens.BottomBar }] });
           })
           .catch((err) => {
             console.log("err local", err);

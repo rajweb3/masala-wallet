@@ -7,7 +7,6 @@ import { Checkbox } from "react-native-paper";
 import { wp } from "../Constants/Constant";
 import { textStyle } from "../Constants/textStyle";
 import { Screens } from "../Stacks/Screens";
-import axios from "axios";
 
 const GuardianScreen = () => {
   const navigation = useNavigation();

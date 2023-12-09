@@ -69,7 +69,11 @@ const AuthSuccessScreen = () => {
       <AuthButton
         text={isFromGuardian ? "Finish" : "Next"}
         onPress={() => {
-          navigation.navigate(Screens.Guardian);
+          if (isFromRecovery) {
+            navigation.reset({ routes: [{ name: Screens.BottomBar }] });
+          } else {
+            navigation.reset({ routes: [{ name: Screens.Guardian }] });
+          }
         }}
       />
     </View>

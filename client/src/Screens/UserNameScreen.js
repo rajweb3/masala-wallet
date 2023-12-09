@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
 export const AppName = ({ title }) => {
   return (
     <Text style={{ fontSize: wp("8"), color: "black", alignSelf: "center" }}>
-      {title ? title : "Order Of Odin"}
+      {title ? title : "Masala Wallet"}
     </Text>
   );
 };

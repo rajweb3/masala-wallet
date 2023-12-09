@@ -1,3 +1,3 @@
 export const AsData = {
-  LoginDone: "LoginDone",
+  LoginDone: "LoginDonded",
 };

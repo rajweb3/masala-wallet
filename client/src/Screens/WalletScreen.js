@@ -65,11 +65,12 @@ const WalletScreen = () => {
           "/534351/0x171839E7c240fCA798B1aC608daBaA1321312276"
       )
       .then((res) => {
-        console.log("res local", res?.data);
+        console.log("res axios", res?.data);
         setBalance(res?.data?.data);
         // navigation.reset({ routes: [{ name: Screens.BottomBar }] });
       })
       .catch((err) => {
+        console.log("err ---->", err);
         // console.log("err local", err);
         // console.log("err local response", err?.response);
         // console.log("err local data", err?.data);
@@ -231,7 +232,7 @@ const WalletCard = ({ balance }) => {
         </View>
       </View>
       <View style={wStyles.logoTitle}>
-        <Text style={textStyle(4.2, Colors.black, "500")}>Order Of Odin</Text>
+        <Text style={textStyle(4.2, Colors.black, "500")}>Masala Wallet</Text>
       </View>
     </View>
   );

@@ -11,6 +11,11 @@ export const ChainConfig = [
     name: "Polygon",
     imageUrl: Images.Vector,
   },
+  {
+    id: "534351",
+    name: "Scroll",
+    imageUrl: Images.scroll,
+  },
   // {
   //   id: "43114",
   //   name: "AVAX",
@@ -23,12 +28,11 @@ export const ChainConfig = [
   //   imageUrl:
   //     "https://assets.coingecko.com/coins/images/825/standard/bnb-icon2_2x.png?1696501970",
   // },
-  // {
-  //   id: "42161",
-  //   name: "Arbitrum One",
-  //   imageUrl:
-  //     "https://assets.coingecko.com/coins/images/16547/standard/photo_2023-03-29_21.47.00.jpeg?1696516109",
-  // },
+  {
+    id: "42016",
+    name: "Arbitrum Goerli",
+    imageUrl: Images.Mantle,
+  },
   // {
   //   id: "80001",
   //   name: "Polygon Mumbai",

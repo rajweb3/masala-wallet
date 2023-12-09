@@ -1,4 +1,4 @@
-export const BASE_URL = "https://bbe4-14-195-9-98.ngrok-free.app/";
+export const BASE_URL = "https://99c4-14-195-9-98.ngrok-free.app/";
 
 export const WALLET_CREATE = "wallet/create";
 export const WALLET_EXECUTE = "wallet/execute";

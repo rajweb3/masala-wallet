@@ -10,4 +10,5 @@ export const Images = {
   swapToken: require("../Assets/Images/swapToken.png"),
   Mantle: require("../Assets/Images/Mantle.png"),
   ethereum: require("../Assets/Images/ethereum.png"),
+  scroll: require("../Assets/Images/scroll.png"),
 };
