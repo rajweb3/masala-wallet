@@ -48,7 +48,7 @@ export const userLoginService = async (req: Request, res: Response) => {
         const response = await contract.usernameInfo(userName);
         return responseSuccess(res, httpStatus.OK, {
           isValid: true,
-          data: { network: `${network.data.name}`, walletAddress: response },
+          data: { network: `${network.data.name}`, walletAddress: response[1] },
         });
       }
     } catch (error: any) {
