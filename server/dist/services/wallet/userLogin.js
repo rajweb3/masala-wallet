@@ -36,7 +36,11 @@ const userLoginService = (req, res) => __awaiter(void 0, void 0, void 0, functio
             const zokratesHash = yield zokratesCrypto.generateStringHash(passwordHash);
             if (ethers_1.BigNumber.from(hash1).toString() === zokratesHash[0].toString() &&
                 ethers_1.BigNumber.from(hash2).toString() === zokratesHash[1].toString()) {
-                return (0, commonResponse_1.responseSuccess)(res, httpStatus_1.default.OK, { isValid: true });
+                const response = yield contract.usernameInfo(userName);
+                return (0, commonResponse_1.responseSuccess)(res, httpStatus_1.default.OK, {
+                    isValid: true,
+                    data: { network: `${network.data.name}`, walletAddress: response },
+                });
             }
         }
         catch (error) {

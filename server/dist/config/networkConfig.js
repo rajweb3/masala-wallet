@@ -1,5 +1,5 @@
 "use strict";
-var _a, _b, _c, _d, _e;
+var _a, _b, _c, _d, _e, _f;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getNetworkInformation = exports.networkInfo = exports.ChainId = exports.NetworkType = void 0;
 const commonResponse_1 = require("./commonResponse");
@@ -12,11 +12,11 @@ var NetworkType;
 var ChainId;
 (function (ChainId) {
     ChainId["MANTLE_TESTNET"] = "5001";
-    // SCROLL_ALFA = "534353",
     ChainId["SCROLL_SEPOLIA"] = "534351";
-    ChainId["BASE_GOERLI_TESTNET"] = "84531";
+    ChainId["BASE_SEPOLIA_TESTNET"] = "84532";
     ChainId["ARBITRUM_GOERLI"] = "421613";
     ChainId["CELO_ALFAJORES"] = "44787";
+    ChainId["POLYGON_MAINNET"] = "137";
 })(ChainId || (exports.ChainId = ChainId = {}));
 exports.networkInfo = [
     {
@@ -37,17 +37,17 @@ exports.networkInfo = [
         explorer: "https://sepolia-blockscout.scroll.io",
         covalentChainId: (0, covalentInterfaces_1.getCovalentChainName)("scroll-sepolia-testnet"),
         contractAddress: ((_b = process.env) === null || _b === void 0 ? void 0 : _b.SCROLL_BASIC_FACTORY_CONTRACT) || "",
-        status: false,
+        status: true,
     },
     {
-        name: "BASE_GOERLI_TESTNET",
-        chain: ChainId.BASE_GOERLI_TESTNET,
+        name: "BASE_SEPOLIA_TESTNET",
+        chain: ChainId.BASE_SEPOLIA_TESTNET,
         type: NetworkType.TESTNET,
-        providerUrl: `https://base-goerli.blockscout.com`,
-        explorer: `https://goerli.basescan.org`,
+        providerUrl: `https://sepolia.base.org`,
+        explorer: `https://sepolia-explorer.base.org`,
         covalentChainId: (0, covalentInterfaces_1.getCovalentChainName)("base-testnet"),
         contractAddress: ((_c = process.env) === null || _c === void 0 ? void 0 : _c.BASE_BASIC_FACTORY_CONTRACT) || "",
-        status: false,
+        status: true,
     },
     {
         name: "ARBITRUM_GOERLI",
@@ -68,6 +68,16 @@ exports.networkInfo = [
         covalentChainId: null,
         contractAddress: ((_e = process.env) === null || _e === void 0 ? void 0 : _e.CELO_BASIC_FACTORY_CONTRACT) || "",
         status: false,
+    },
+    {
+        name: "POLYGON_MAINNET",
+        chain: ChainId.POLYGON_MAINNET,
+        type: NetworkType.TESTNET,
+        providerUrl: `https://polygon-mainnet.infura.io`,
+        explorer: `https://polygonscan.com`,
+        covalentChainId: (0, covalentInterfaces_1.getCovalentChainName)("polygon-zkevm-mainnet"),
+        contractAddress: ((_f = process.env) === null || _f === void 0 ? void 0 : _f.CELO_BASIC_FACTORY_CONTRACT) || "",
+        status: true,
     },
 ];
 const getNetworkInformation = (chain) => {
