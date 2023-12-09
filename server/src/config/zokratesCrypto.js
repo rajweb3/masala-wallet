@@ -1,3 +1,4 @@
+const fs = require("fs");
 function stringToUint8Array(str) {
   const bytes = [];
   for (let i = 0; i < str.length; i++) {
@@ -108,15 +109,16 @@ const generateProof = async (password, hashedPassword, nonce) => {
     const uint32Encoded = getUintEncodedString(password);
     console.log({ hashedPassword });
     // computation
+
     const { witness, output } = zokratesProvider.computeWitness(artifacts, [
       uint32Encoded,
-      nonce,
+      nonce.toString(),
       ...hashedPassword,
-      `${nonce.toString()}`,
+      nonce.toString(),
     ]);
     console.log({ output });
     // run setup
-    const provingKeyData = await fs.readFileSync("proving.key");
+    const provingKeyData = await fs.readFileSync(`${__dirname}/proving.key`);
     const provingKey = new Uint8Array(provingKeyData);
     // generate proof
     const proof = zokratesProvider.generateProof(
@@ -126,6 +128,7 @@ const generateProof = async (password, hashedPassword, nonce) => {
     );
     console.log({ proof: JSON.stringify(proof.proof), inputs: proof.inputs });
     const transposedProof = [proof.proof.a, proof.proof.b, proof.proof.c];
+    console.log({ transposedProof })
 
     return { proof: transposedProof, inputs: proof.inputs };
   } catch (error) {
