@@ -1,0 +1,14 @@
+import "hashes/sha256/512bit" as sha256;
+import "utils/pack/u32/pack128" as pack128;
+import "utils/casts/u32_to_field" as u32_to_field;
+
+def main(private u32[16] encodedPassword, private field unpackedNonce, field pwdHashA, field pwdHashB, u32 nonce) {
+    u32[8] lhs = [...encodedPassword[0..8]];
+    u32[8] rhs = [...encodedPassword[8..16]];
+    u32[8] r = sha256(lhs, rhs);
+    field[2] h = [pack128(r[0..4]), pack128(r[4..8])];
+    assert(h[0] == pwdHashA);
+    assert(h[1] == pwdHashB);
+    assert(u32_to_field(nonce) == unpackedNonce);
+    return;
+}

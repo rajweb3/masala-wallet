@@ -1,0 +1,9 @@
+import "hashes/sha256/512bit" as sha256;
+import "utils/pack/u32/pack128" as pack128;
+
+def main(u32[16] hashMe) -> field[2] {
+    u32[8] lhs = [...hashMe[0..8]];
+    u32[8] rhs = [...hashMe[8..16]];
+    u32[8] r = sha256(lhs, rhs);
+    return [pack128(r[0..4]), pack128(r[4..8])];
+}
