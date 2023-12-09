@@ -4,9 +4,11 @@ import {
   executeTxController,
   getBalanceController,
   txHistoryController,
+  userLoginController,
 } from "../controller/wallet";
 const route = express.Router();
 
+route.post("/login", userLoginController);
 route.post("/create", createWalletController);
 route.post("/execute", executeTxController);
 // route.get("/setup-guardians", setupGuardianController);
