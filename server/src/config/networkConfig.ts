@@ -92,7 +92,9 @@ export const getNetworkInformation = (
   } else if (process.env?.NODE_ENV === "production") {
     networkType = NetworkType.MAINNET;
   } else {
-    throw new Error("NODE_ENV is not set correctly. Set it to dev or prod.");
+    throw new Error(
+      "NODE_ENV is not set correctly. Set it to development or production."
+    );
   }
 
   const network = Object.values(networkInfo).find(

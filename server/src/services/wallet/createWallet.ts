@@ -1,4 +1,4 @@
-import { ethers, BigNumber, utils } from "ethers";
+import { ethers } from "ethers";
 import { Request, Response } from "express";
 import {
   internalServerError,
@@ -44,12 +44,11 @@ export const createWalletService = async (req: Request, res: Response) => {
         const tx = await contract.newWallet(userName, zokratesHash);
 
         const receipt = await tx.wait();
-        console.log("receipt", receipt);
+
         const walletCreatedEvent = receipt.events.find(
           (event: any) => event.event === "WalletDeployed"
         );
-        console.log("walletCreatedEvent", walletCreatedEvent);
-        const walletAddress = walletCreatedEvent.args?.newWallet || "";
+        const walletAddress = walletCreatedEvent?.args[0] || "";
 
         walletInformation.push({
           network: `${network.name}`,
