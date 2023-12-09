@@ -25,7 +25,7 @@ const RecoveryGuardiansScreen = () => {
             navigation.navigate(Screens.Guardian);
           })
           .catch((e) => {
-            console.log(e);
+            console.log("e------,", e);
           });
       })
       .catch((error) => {

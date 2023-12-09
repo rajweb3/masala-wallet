@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Colors } from "../Constants/Colors";
 import { useNavigation } from "@react-navigation/native";
 import { AppName, AuthButton, AuthCard } from "./UserNameScreen";
@@ -7,9 +7,27 @@ import { Checkbox } from "react-native-paper";
 import { wp } from "../Constants/Constant";
 import { textStyle } from "../Constants/textStyle";
 import { Screens } from "../Stacks/Screens";
+import axios from "axios";
 
 const GuardianScreen = () => {
   const navigation = useNavigation();
+
+  const url =
+    "https://6287-2405-204-5684-67fb-1d50-ad26-aa51-b49a.ngrok-free.app/celo-auth/lookup?handle=moniratna@nordfinance.io&identifierType=google";
+
+  useEffect(() => {
+    callApi();
+  }, []);
+
+  const callApi = () => {
+    fetch(url)
+      .then((res) => {
+        console.log("res ---->", res);
+      })
+      .catch((err) => {
+        console.log("wrr", err);
+      });
+  };
 
   return (
     <View style={styles.cont}>
