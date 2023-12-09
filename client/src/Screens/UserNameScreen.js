@@ -27,7 +27,12 @@ const UserNameScreen = () => {
   };
 
   const SignUpNextHandler = () => {
-    navigation.navigate(Screens.Password);
+    const isUserNameValid = validateName(userName, "Username");
+    if (isUserNameValid?.length > 0) {
+      Utility.showError(isUserNameValid[0]);
+    } else {
+      navigation.navigate(Screens.Password, { userName: userName });
+    }
   };
 
   return (

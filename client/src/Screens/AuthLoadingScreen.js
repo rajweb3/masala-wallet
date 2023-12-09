@@ -7,6 +7,9 @@ import { ActivityIndicator } from "react-native-paper";
 import { wp } from "../Constants/Constant";
 import { textStyle } from "../Constants/textStyle";
 import { Screens } from "../Stacks/Screens";
+import { createWalletApi } from "../Core/ApiCall/CallApi";
+import { generateStringHashMy } from "../Constants/generateStringHash";
+import axios from "axios";
 
 const AuthLoadingScreen = () => {
   const navigation = useNavigation();
@@ -14,6 +17,12 @@ const AuthLoadingScreen = () => {
   const isFromGuardian = route?.params?.isFromGuardian;
   const isFromRecovery = route?.params?.isFromRecovery;
   const isLogin = route?.params?.isLogin;
+  const isSignUp = route?.params?.isSignUp;
+  const body = route?.params?.body;
+
+  // const hashPassword = generateStringHashMy();
+
+  // console.log("hashPassword --->", hashPassword);
 
   const authText =
     "Lighting up your hassle-free gateway to web3, please standby...";
@@ -23,7 +32,7 @@ const AuthLoadingScreen = () => {
   const decText = isFromGuardian ? guardianText : authText;
 
   useEffect(() => {
-    setTimeout(() => {
+    setTimeout(async () => {
       if (isLogin) {
         Alert.alert("Login Successfully", "", [
           {
@@ -33,6 +42,32 @@ const AuthLoadingScreen = () => {
             },
           },
         ]);
+      } else if (isSignUp) {
+        console.log("body ---->", body);
+        const response = await axios.post(
+          "https://62d6-157-50-36-24.ngrok-free.app/wallet/create",
+          body
+        );
+        console.log("response ---->", response);
+        await axios
+          .post("https://62d6-157-50-36-24.ngrok-free.app/wallet/create", body)
+          .then((res) => {
+            console.log("res", res);
+          })
+          .catch((err) => {
+            console.log("err", err);
+          });
+        // createWalletApi(body)
+        //   .then((res) => {
+        //     console.log("res", res);
+        //     navigation.navigate(Screens.AuthSuccess, {
+        //       isFromRecovery: true,
+        //     });
+        //   })
+        //   .catch((err) => {
+        //     console.warn("err", err);
+        //     navigation.goBack();
+        //   });
       } else {
         navigation.replace(Screens.AuthSuccess, {
           isFromGuardian: isFromGuardian,

@@ -1,5 +1,5 @@
 import { Image, StyleSheet, View } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { Images } from "../Constants/Images";
 import { wp } from "../Constants/Constant";
 import { Colors } from "../Constants/Colors";
@@ -7,9 +7,27 @@ import { Button } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 // import { lookupAddress } from "../Core/ApiCall/getLookUpAddress";
 import { Screens } from "../Stacks/Screens";
+import axios from "axios";
+import { generateStringHashMy } from "../Constants/generateStringHash";
 
 const StartScreen = () => {
   const navigation = useNavigation();
+
+  useEffect(() => {
+    // callApi();
+  }, []);
+
+  const callApi = () => {
+    const apiUrl = "http://api.publicapis.org/entries"; // Replace with your actual API endpoint
+    axios
+      .get(apiUrl)
+      .then((res) => {
+        console.log("res --->", res);
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
+  };
 
   const onPressConnect = () => {
     // lookupAddress();

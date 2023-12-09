@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { IconButton } from "react-native-paper";
 import { textStyle } from "../Constants/textStyle";
 import { Colors } from "../Constants/Colors";
@@ -14,6 +14,7 @@ import { Images } from "../Constants/Images";
 import { hp, wp } from "../Constants/Constant";
 import { useNavigation } from "@react-navigation/native";
 import { Screens } from "../Stacks/Screens";
+import WalletModal from "../Components/WalletModal";
 
 const WalletScreen = () => {
   return (
@@ -48,6 +49,7 @@ const styles = StyleSheet.create({
 
 export const MainHeader = ({ text }) => {
   const navigation = useNavigation();
+  const [modalVisible, setModalVisible] = useState(false);
   return (
     <View
       style={{
@@ -77,8 +79,11 @@ export const MainHeader = ({ text }) => {
           });
         }}
       />
-      <View
+      <TouchableOpacity
         style={{ flexDirection: "row", alignItems: "center", gap: wp("2") }}
+        onPress={() => {
+          setModalVisible(true);
+        }}
       >
         <Image
           source={Images.Vector}
@@ -97,7 +102,7 @@ export const MainHeader = ({ text }) => {
           }}
           resizeMode="contain"
         />
-      </View>
+      </TouchableOpacity>
       <IconButton
         icon={() => (
           <Image
@@ -114,6 +119,12 @@ export const MainHeader = ({ text }) => {
         }}
         size={hp("4")}
         style={{ position: "absolute", right: wp("2") }}
+      />
+      <WalletModal
+        visible={modalVisible}
+        onPressCancel={() => {
+          setModalVisible(false);
+        }}
       />
     </View>
   );

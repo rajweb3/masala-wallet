@@ -14,6 +14,7 @@ export const Screens = {
   BottomBar: "BottomBar",
   InitiateRecovery: "InitiateRecovery",
   RecoveryPassword: "RecoveryPassword",
+  OnBoarding: "OnBoarding",
 
   Wallet: "Wallet",
   Transact: "Transact",

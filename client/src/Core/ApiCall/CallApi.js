@@ -1,17 +1,37 @@
-import {baseApiCall} from './BaseApiCall';
-import {ENTRIES, SIGN_UP_VERIFY} from './EndPoint';
+import { baseApiCall } from "./BaseApiCall";
+import {
+  GET_WALLET_BALANCE,
+  GET_WALLET_TX_HISTORY,
+  WALLET_CREATE,
+  WALLET_EXECUTE,
+} from "./EndPoint";
 
-export const signUpVerifyApi = data => {
+export const createWalletApi = (data) => {
   return baseApiCall({
-    url: SIGN_UP_VERIFY,
-    method: 'post',
+    url: WALLET_CREATE,
+    method: "post",
     data,
   });
 };
 
-export const getEntriesApi = poolId => {
+export const executeWalletApi = (data) => {
   return baseApiCall({
-    url: ENTRIES,
-    method: 'get',
+    url: WALLET_EXECUTE,
+    method: "post",
+    data,
+  });
+};
+
+export const getWalletBalanceApi = () => {
+  return baseApiCall({
+    url: GET_WALLET_BALANCE,
+    method: "get",
+  });
+};
+
+export const getWalletTxHistoryApi = () => {
+  return baseApiCall({
+    url: GET_WALLET_TX_HISTORY,
+    method: "get",
   });
 };

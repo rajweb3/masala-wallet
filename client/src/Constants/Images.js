@@ -8,4 +8,6 @@ export const Images = {
   qrCode: require("../Assets/Images/qrCode.png"),
   transferToken: require("../Assets/Images/transferToken.png"),
   swapToken: require("../Assets/Images/swapToken.png"),
+  Mantle: require("../Assets/Images/Mantle.png"),
+  ethereum: require("../Assets/Images/ethereum.png"),
 };

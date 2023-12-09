@@ -12,25 +12,33 @@ import {
 import { Screens } from "../Stacks/Screens";
 import { validatePassword } from "../Constants/validateCondition";
 import Utility from "../Constants/Utility";
+import { createWalletApi } from "../Core/ApiCall/CallApi";
 
 const PasswordScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const userName = route?.params?.userName;
+
+  console.log("userName", userName);
 
   const nextHandler = () => {
     const isValid = validatePassword(password);
-    const isValidConfirmPass = validatePassword(confirmPassword);
+    // const isValidConfirmPass = validatePassword(confirmPassword);
     if (isValid?.length > 0) {
-      console.log("isValid[0]", isValid[0]);
       Utility.showError(isValid[0]);
-    } else if (isValidConfirmPass?.length > 0) {
-      console.log("isValid[0]", isValidConfirmPass[0]);
-      Utility.showError(isValidConfirmPass[0]);
+    } else if (password != confirmPassword) {
+      Utility.showError("Password and confirm password should be same");
     } else {
-      navigation.navigate(Screens.AuthSuccess, {
-        isFromRecovery: true,
+      const body = {
+        userName: userName,
+        passwordHash: password,
+      };
+      console.log("body", body);
+      navigation.navigate(Screens.AuthLoading, {
+        isSignUp: true,
+        body: body,
       });
     }
   };
@@ -48,11 +56,19 @@ const PasswordScreen = () => {
         placeholder={"Enter Password"}
         label={"Password"}
         isPassword={true}
+        value={password}
+        onChangeText={(text) => {
+          setPassword(text);
+        }}
       />
       <AuthInput
         placeholder={"Enter Confirm Password"}
         label={"Confirm Password"}
         isPassword={true}
+        value={confirmPassword}
+        onChangeText={(text) => {
+          setConfirmPassword(text);
+        }}
       />
       <AuthButton text={"Next"} onPress={nextHandler} />
     </View>

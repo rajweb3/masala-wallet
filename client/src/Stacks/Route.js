@@ -20,6 +20,7 @@ import GuardianScreen from "../Screens/GuardianScreen";
 import ConfirmGuardians from "../Screens/ConfirmGuardians";
 import LoginScreen from "../Screens/LoginScreen";
 import SettingsScreen from "../Screens/SettingsScreen";
+import OnBoardingScreen from "../Screens/OnBoardingScreen";
 
 const Route = () => {
   const Stack = createNativeStackNavigator();
@@ -30,6 +31,7 @@ const Route = () => {
         initialRouteName={Screens.Splash}
       >
         <Stack.Screen name={Screens.Splash} component={SplashScreen} />
+        <Stack.Screen name={Screens.OnBoarding} component={OnBoardingScreen} />
         <Stack.Screen name={Screens.Start} component={StartScreen} />
         <Stack.Screen name={Screens.Login} component={LoginScreen} />
         <Stack.Screen name={Screens.Settings} component={SettingsScreen} />
@@ -78,6 +80,7 @@ const BottomBar = () => {
         component={WalletScreen}
         options={{ tabBarIcon: "circle", tabBarColor: "black" }}
       />
+
       <Tab.Screen
         name={Screens.Transact}
         component={TransactScreen}
