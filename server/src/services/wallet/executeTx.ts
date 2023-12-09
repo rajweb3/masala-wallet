@@ -26,7 +26,7 @@ export const executeTxService = async (req: Request, res: Response) => {
     }
     const zokratesHash = await zokratesCrypto.generateStringHash(passwordHash);
     const nonce = generateRandomNonce();
-    const { proof, inputs } = zokratesCrypto.generateProof(
+    const { proof, inputs } = await zokratesCrypto.generateProof(
       passwordHash,
       zokratesHash,
       nonce
@@ -46,6 +46,8 @@ export const executeTxService = async (req: Request, res: Response) => {
       wallet
     );
 
+    console.log({proof})
+
     const tx = await contract.executeWalletTx(
       proof,
       userName,
@@ -54,6 +56,8 @@ export const executeTxService = async (req: Request, res: Response) => {
       value,
       data
     );
+
+    console.log({tx})
 
     await tx.wait();
     return responseSuccess(res, httpStatus.CREATED, {
