@@ -11,7 +11,11 @@ import { BasicFactoryContract } from "../../config/abis/BasicFactoryContract";
 export const createWalletService = async (req: Request, res: Response) => {
   try {
     const { userName, passwordHash } = req.body;
-    let txHahsForNetwork: { network: string; hash: string }[] = [];
+    let txHahsForNetwork: {
+      network: string;
+      hash: string;
+      walletAddress: string;
+    }[] = [];
     for (let i = 0; i < networkInfo.length; i++) {
       const network = networkInfo[i];
 
@@ -36,10 +40,16 @@ export const createWalletService = async (req: Request, res: Response) => {
       try {
         const tx = await contract.newWallet(userName, passwordHash);
 
-        await tx.wait();
+        const receipt = await tx.wait();
+        const walletCreatedEvent = receipt.events.find(
+          (event: any) => event.event === "WalletDeployed"
+        );
+        const walletAddress = walletCreatedEvent.args?.newWallet || "";
+
         txHahsForNetwork.push({
           network: `${network.name}`,
           hash: `${network.explorer}/tx/${tx?.hash}`,
+          walletAddress,
         });
       } catch (error: any) {
         console.log("error", error);
