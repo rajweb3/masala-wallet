@@ -39,7 +39,7 @@ const userLoginService = (req, res) => __awaiter(void 0, void 0, void 0, functio
                 const response = yield contract.usernameInfo(userName);
                 return (0, commonResponse_1.responseSuccess)(res, httpStatus_1.default.OK, {
                     isValid: true,
-                    data: { network: `${network.data.name}`, walletAddress: response },
+                    data: { network: `${network.data.name}`, walletAddress: response[1] },
                 });
             }
         }
