@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const wallet_1 = require("../controller/wallet");
 const route = express_1.default.Router();
+route.post("/login", wallet_1.userLoginController);
 route.post("/create", wallet_1.createWalletController);
 route.post("/execute", wallet_1.executeTxController);
 // route.get("/setup-guardians", setupGuardianController);

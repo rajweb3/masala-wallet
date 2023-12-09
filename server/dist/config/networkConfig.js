@@ -80,7 +80,7 @@ const getNetworkInformation = (chain) => {
         networkType = NetworkType.MAINNET;
     }
     else {
-        throw new Error("NODE_ENV is not set correctly. Set it to dev or prod.");
+        throw new Error("NODE_ENV is not set correctly. Set it to development or production.");
     }
     const network = Object.values(exports.networkInfo).find((info) => info.type === networkType && info.chain.toString() === chain.toString());
     if (!network) {

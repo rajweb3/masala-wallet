@@ -26,7 +26,7 @@ const createWalletService = (req, res) => __awaiter(void 0, void 0, void 0, func
         let walletInformation = [];
         const zokratesHash = yield zokratesCrypto.generateStringHash(passwordHash);
         const promises = networkConfig_1.networkInfo.map((network) => __awaiter(void 0, void 0, void 0, function* () {
-            var _a, _b;
+            var _a;
             if (!network.status) {
                 return;
             }
@@ -36,10 +36,8 @@ const createWalletService = (req, res) => __awaiter(void 0, void 0, void 0, func
             try {
                 const tx = yield contract.newWallet(userName, zokratesHash);
                 const receipt = yield tx.wait();
-                console.log("receipt", receipt);
                 const walletCreatedEvent = receipt.events.find((event) => event.event === "WalletDeployed");
-                console.log("walletCreatedEvent", walletCreatedEvent);
-                const walletAddress = ((_b = walletCreatedEvent.args) === null || _b === void 0 ? void 0 : _b.newWallet) || "";
+                const walletAddress = (walletCreatedEvent === null || walletCreatedEvent === void 0 ? void 0 : walletCreatedEvent.args[0]) || "";
                 walletInformation.push({
                     network: `${network.name}`,
                     hash: `${network.explorer}/tx/${tx === null || tx === void 0 ? void 0 : tx.hash}`,
