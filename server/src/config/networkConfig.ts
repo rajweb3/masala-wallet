@@ -11,6 +11,8 @@ export enum ChainId {
   // SCROLL_ALFA = "534353",
   SCROLL_SEPOLIA = "534351",
   BASE_GOERLI_TESTNET = "84531",
+  ARBITRUM_GOERLI = "421613",
+  CELO_ALFAJORES = "44787",
 }
 
 export interface NetworkInfo {
@@ -35,14 +37,6 @@ export const networkInfo: NetworkInfo[] = [
     contractAddress: process.env?.MANTLE_BASIC_FACTORY_CONTRACT || "",
     status: true,
   },
-  // {
-  //   name: "SCROLL_ALFA",
-  //   chain: ChainId.SCROLL_ALFA,
-  //   type: NetworkType.TESTNET,
-  //   providerUrl: `https://alpha-rpc.scroll.io/l2/`,
-  //   explorer: "https://alpha-blockscout.scroll.io/",
-  //   covalentChainId: getCovalentChainName("scroll-alpha-testnet"),
-  // },
   {
     name: "SCROLL_SEPOLIA",
     chain: ChainId.SCROLL_SEPOLIA,
@@ -57,10 +51,30 @@ export const networkInfo: NetworkInfo[] = [
     name: "BASE_GOERLI_TESTNET",
     chain: ChainId.BASE_GOERLI_TESTNET,
     type: NetworkType.TESTNET,
-    providerUrl: `https://goerli.base.org/`,
-    explorer: "https://goerli.basescan.org",
-    covalentChainId: getCovalentChainName("scroll-sepolia-testnet"),
-    contractAddress: "",
+    providerUrl: `https://base-goerli.blockscout.com`,
+    explorer: `https://goerli.basescan.org`,
+    covalentChainId: getCovalentChainName("base-testnet"),
+    contractAddress: process.env?.BASE_BASIC_FACTORY_CONTRACT || "",
+    status: false,
+  },
+  {
+    name: "ARBITRUM_GOERLI",
+    chain: ChainId.ARBITRUM_GOERLI,
+    type: NetworkType.TESTNET,
+    providerUrl: `https://goerli-rollup.arbitrum.io/rpc`,
+    explorer: `https://testnet.arbiscan.io`,
+    covalentChainId: getCovalentChainName("arbitrum-goerli"),
+    contractAddress: process.env?.ARBITRUM_BASIC_FACTORY_CONTRACT || "",
+    status: false,
+  },
+  {
+    name: "CELO_ALFAJORES",
+    chain: ChainId.CELO_ALFAJORES,
+    type: NetworkType.TESTNET,
+    providerUrl: `https://alfajores-forno.celo-testnet.org`,
+    explorer: `https://alfajores.celoscan.io/`,
+    covalentChainId: null,
+    contractAddress: process.env?.CELO_BASIC_FACTORY_CONTRACT || "",
     status: false,
   },
 ];

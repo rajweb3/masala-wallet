@@ -15,6 +15,10 @@ declare global {
       GITHUB_SECRET: string;
       ISSUER_PRIVATE_KEY: string;
       DEK_PRIVATE_KEY: string;
+      BASE_BASIC_FACTORY_CONTRACT: string;
+      ARBITRUM_BASIC_FACTORY_CONTRACT: string;
+      CELO_BASIC_FACTORY_CONTRACT: string;
+      POLYGON_BASIC_FACTORY_CONTRACT: string;
     }
   }
 }
