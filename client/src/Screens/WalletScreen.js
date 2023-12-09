@@ -71,7 +71,11 @@ export const MainHeader = ({ text }) => {
         )}
         size={hp("4")}
         style={{ position: "absolute", left: wp("2") }}
-        onPress={() => {}}
+        onPress={() => {
+          navigation.navigate(Screens.BottomBar, {
+            screen: Screens.Wallet,
+          });
+        }}
       />
       <View
         style={{ flexDirection: "row", alignItems: "center", gap: wp("2") }}
@@ -106,7 +110,7 @@ export const MainHeader = ({ text }) => {
           />
         )}
         onPress={() => {
-          // navigation.navigate(Screens.Settings);
+          navigation.navigate(Screens.Settings);
         }}
         size={hp("4")}
         style={{ position: "absolute", right: wp("2") }}
