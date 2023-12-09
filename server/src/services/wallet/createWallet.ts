@@ -11,16 +11,15 @@ import { BasicFactoryContract } from "../../config/abis/BasicFactoryContract";
 export const createWalletService = async (req: Request, res: Response) => {
   try {
     const { userName, passwordHash } = req.body;
-    let txHahsForNetwork: {
+    let walletInformation: {
       network: string;
       hash: string;
       walletAddress: string;
     }[] = [];
-    for (let i = 0; i < networkInfo.length; i++) {
-      const network = networkInfo[i];
 
+    const promises = networkInfo.map(async (network) => {
       if (!network.status) {
-        continue;
+        return;
       }
 
       const provider = new ethers.providers.JsonRpcProvider(
@@ -46,7 +45,7 @@ export const createWalletService = async (req: Request, res: Response) => {
         );
         const walletAddress = walletCreatedEvent.args?.newWallet || "";
 
-        txHahsForNetwork.push({
+        walletInformation.push({
           network: `${network.name}`,
           hash: `${network.explorer}/tx/${tx?.hash}`,
           walletAddress,
@@ -54,9 +53,10 @@ export const createWalletService = async (req: Request, res: Response) => {
       } catch (error: any) {
         console.log("error", error);
       }
-    }
+    });
+    await Promise.all(promises);
 
-    return responseSuccess(res, httpStatus.CREATED, txHahsForNetwork);
+    return responseSuccess(res, httpStatus.CREATED, walletInformation);
   } catch (error: any) {
     return internalServerError(res, error.message);
   }
