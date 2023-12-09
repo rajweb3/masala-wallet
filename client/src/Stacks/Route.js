@@ -21,6 +21,7 @@ import ConfirmGuardians from "../Screens/ConfirmGuardians";
 import LoginScreen from "../Screens/LoginScreen";
 import SettingsScreen from "../Screens/SettingsScreen";
 import OnBoardingScreen from "../Screens/OnBoardingScreen";
+import RecoveryGuardiansScreen from "../Screens/RecoveryGuardiansScreen";
 
 const Route = () => {
   const Stack = createNativeStackNavigator();
@@ -28,9 +29,13 @@ const Route = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName={Screens.BottomBar}
+        initialRouteName={Screens.Splash}
       >
         <Stack.Screen name={Screens.Splash} component={SplashScreen} />
+        <Stack.Screen
+          name={Screens.RecoveryGuardians}
+          component={RecoveryGuardiansScreen}
+        />
         <Stack.Screen name={Screens.OnBoarding} component={OnBoardingScreen} />
         <Stack.Screen name={Screens.Start} component={StartScreen} />
         <Stack.Screen name={Screens.Login} component={LoginScreen} />

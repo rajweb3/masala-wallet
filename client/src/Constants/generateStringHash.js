@@ -1,4 +1,5 @@
-import { initialize } from "zokrates-js";
+// import { initialize } from "zokrates-js";
+let { initialize } = await import("zokrates-js");
 
 const getUintEncodedString = (plainString) => {
   // const encoder = new TextEncoder();

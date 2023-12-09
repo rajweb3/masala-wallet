@@ -1,3 +1,3 @@
-const Stores = {
+export const AsData = {
   LoginDone: "LoginDone",
 };

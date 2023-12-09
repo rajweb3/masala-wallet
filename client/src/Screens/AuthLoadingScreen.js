@@ -11,6 +11,8 @@ import { createWalletApi } from "../Core/ApiCall/CallApi";
 import { generateStringHashMy } from "../Constants/generateStringHash";
 import axios from "axios";
 import { BASE_URL, WALLET_CREATE } from "../Core/ApiCall/EndPoint";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AsData } from "../Constants/AsData";
 
 const AuthLoadingScreen = () => {
   const navigation = useNavigation();
@@ -48,7 +50,9 @@ const AuthLoadingScreen = () => {
           .post(BASE_URL + WALLET_CREATE, body)
           .then((res) => {
             console.log("res local", res);
-            navigation.reset({ routes: [{ name: Screens.BottomBar }] });
+            navigation.replace(Screens.RecoveryGuardians);
+            AsyncStorage.setItem(AsData.LoginDone, "RecoverySetup");
+            // navigation.reset({ routes: [{ name: Screens.BottomBar }] });
           })
           .catch((err) => {
             console.log("err local", err);

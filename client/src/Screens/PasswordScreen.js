@@ -12,7 +12,7 @@ import {
 import { Screens } from "../Stacks/Screens";
 import { validatePassword } from "../Constants/validateCondition";
 import Utility from "../Constants/Utility";
-import { createWalletApi } from "../Core/ApiCall/CallApi";
+import RNHash, { CONSTANTS } from "react-native-hash";
 
 const PasswordScreen = () => {
   const route = useRoute();
@@ -31,15 +31,20 @@ const PasswordScreen = () => {
     } else if (password != confirmPassword) {
       Utility.showError("Password and confirm password should be same");
     } else {
-      const body = {
-        userName: userName,
-        passwordHash: password,
-      };
-      console.log("body", body);
-      navigation.navigate(Screens.AuthLoading, {
-        isSignUp: true,
-        body: body,
-      });
+      RNHash.hashString(password, CONSTANTS.HashAlgorithms.sha256)
+        .then((hash) => {
+          console.log("hash", hash);
+          const body = {
+            userName: userName,
+            passwordHash: hash,
+          };
+          console.log("body", body);
+          navigation.navigate(Screens.AuthLoading, {
+            isSignUp: true,
+            body: body,
+          });
+        })
+        .catch((e) => console.log(e));
     }
   };
 

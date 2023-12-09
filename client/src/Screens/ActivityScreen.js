@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   FlatList,
   Image,
   StyleSheet,
@@ -6,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MainHeader } from "./WalletScreen";
 import { wp } from "../Constants/Constant";
 import { Colors } from "../Constants/Colors";
@@ -14,9 +15,28 @@ import { textStyle } from "../Constants/textStyle";
 import { Card, SegmentedButtons } from "react-native-paper";
 import { Images } from "../Constants/Images";
 import { KeyCard, TransCard } from "./TransactScreen";
+import { getWalletTxHistoryApi } from "../Core/ApiCall/CallApi";
+import moment from "moment";
+import { SvgUri } from "react-native-svg";
 
 const ActivityScreen = () => {
   const [value, setValue] = React.useState("Open Txs");
+  const [loading, setLoading] = useState(false);
+  const [txData, setTxData] = useState();
+
+  useEffect(() => {
+    setLoading(true);
+    getWalletTxHistoryApi()
+      .then((res) => {
+        console.log("getWalletTxHistoryApi", res?.data);
+        setTxData(res?.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log("err getWalletTxHistoryApi", err);
+      });
+  }, []);
 
   return (
     <View style={styles.cont}>
@@ -39,18 +59,44 @@ const ActivityScreen = () => {
         ]}
         style={{ marginTop: wp("10"), width: wp("60"), alignSelf: "center" }}
       />
-      <FlatList
-        data={[1]}
-        renderItem={({ item, index }) => {
-          return <TxsCard />;
-        }}
-        contentContainerStyle={{ marginTop: wp("4") }}
-      />
+      {value == "Open Txs" ? (
+        <NoTxAvail />
+      ) : (
+        <>
+          {loading ? (
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <ActivityIndicator size={"large"} color={Colors.yellow} />
+            </View>
+          ) : (
+            <FlatList
+              data={txData}
+              renderItem={({ item, index }) => {
+                return <TxsCard item={item} index={index} />;
+              }}
+              contentContainerStyle={{ marginTop: wp("4") }}
+            />
+          )}
+        </>
+      )}
     </View>
   );
 };
 
 export default ActivityScreen;
+
+const NoTxAvail = () => {
+  return (
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Text style={textStyle(4, Colors.black)}>No Txs available</Text>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   cont: {
@@ -59,7 +105,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const TxsCard = () => {
+const TxsCard = ({ item, index }) => {
+  // console.log("item TxsCard -->", item);
+  console.log("item?.explorers[0].url", item?.gas_metadata.logo_url);
   return (
     <TouchableOpacity
       style={{
@@ -78,20 +126,39 @@ const TxsCard = () => {
       <View
         style={{ flexDirection: "row", alignItems: "center", gap: wp("4") }}
       >
-        <Image
-          source={Images.Thumbnail}
+        {/* <Image
+          source={{ uri: item?.gas_metadata?.logo_url }}
           style={{ width: wp("10"), height: wp("10") }}
           resizeMode="contain"
-        />
+        /> */}
+        <View
+          style={{
+            width: wp("9"),
+            height: wp("9"),
+            borderRadius: wp("4.5"),
+            backgroundColor: Colors.blackLight,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <SvgUri
+            uri={item?.gas_metadata?.logo_url}
+            width={wp("6.5%")}
+            height={wp("6.5%")}
+            color={Colors.black}
+          />
+        </View>
         <View>
-          <Text style={[textStyle(5, Colors.black)]}>Tokens</Text>
-          <Text style={[textStyle(3.2, Colors.black)]}>3 mins ago</Text>
+          <Text style={[textStyle(5, Colors.black)]}>Transfer</Text>
+          <Text style={[textStyle(3.2, Colors.black)]}>
+            {moment(item?.block_signed_at).format("DD/MM/YYYY LT")}
+          </Text>
         </View>
       </View>
       <View
         style={{ flexDirection: "row", alignItems: "center", gap: wp("2.4") }}
       >
-        <Text style={[textStyle(4.2, Colors.brown)]}>Pending</Text>
+        <Text style={[textStyle(4.2, Colors.green)]}>Confirmed</Text>
         <Image
           source={Images.down}
           style={{

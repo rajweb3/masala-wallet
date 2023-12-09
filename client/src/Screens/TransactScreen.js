@@ -1,20 +1,45 @@
 import { Image, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { MainHeader } from "./WalletScreen";
 import { wp } from "../Constants/Constant";
 import { Colors } from "../Constants/Colors";
 import { textStyle } from "../Constants/textStyle";
 import { Card } from "react-native-paper";
 import { Images } from "../Constants/Images";
+import { ComingSoonModal } from "../Components/ComingSoonModal";
 
 const TransactScreen = () => {
+  const [comingSoonVisible, setComingSoonVisible] = useState(false);
+
   return (
     <View style={styles.cont}>
       <MainHeader text={"Polygon"} />
       <KeyCard />
-      <TransCard imgSrc={Images.qrCode} text={"Transfer Currency"} />
-      <TransCard imgSrc={Images.transferToken} text={"Transfer Tokens"} />
-      <TransCard imgSrc={Images.swapToken} text={"Swap Tokens"} />
+      <TransCard
+        imgSrc={Images.qrCode}
+        text={"Transfer Currency"}
+        onPress={() => {}}
+      />
+      <TransCard
+        imgSrc={Images.transferToken}
+        text={"Transfer Tokens"}
+        onPress={() => {
+          setComingSoonVisible(true);
+        }}
+      />
+      <TransCard
+        imgSrc={Images.swapToken}
+        text={"Swap Tokens"}
+        onPress={() => {
+          setComingSoonVisible(true);
+        }}
+      />
+      <ComingSoonModal
+        visible={comingSoonVisible}
+        onPressCancel={() => {
+          setComingSoonVisible(false);
+        }}
+      />
     </View>
   );
 };
@@ -36,7 +61,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export const TransCard = ({ text, otherStyle, imgSrc }) => (
+export const TransCard = ({ text, otherStyle, imgSrc, onPress }) => (
   <Card
     style={[
       {
@@ -47,6 +72,7 @@ export const TransCard = ({ text, otherStyle, imgSrc }) => (
       },
       otherStyle,
     ]}
+    onPress={onPress}
   >
     <Card.Content>
       <Text

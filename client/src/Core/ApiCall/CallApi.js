@@ -1,5 +1,7 @@
 import { baseApiCall } from "./BaseApiCall";
 import {
+  Address,
+  ChainId,
   GET_WALLET_BALANCE,
   GET_WALLET_TX_HISTORY,
   WALLET_CREATE,
@@ -31,7 +33,7 @@ export const getWalletBalanceApi = () => {
 
 export const getWalletTxHistoryApi = () => {
   return baseApiCall({
-    url: GET_WALLET_TX_HISTORY,
+    url: GET_WALLET_TX_HISTORY + "/" + ChainId + "/" + Address,
     method: "get",
   });
 };

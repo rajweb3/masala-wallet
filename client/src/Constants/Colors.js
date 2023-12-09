@@ -9,4 +9,5 @@ export const Colors = {
   black2: "#1D1B20",
   black3: "#363636",
   brown: "#C67700",
+  green: "#1D9D32",
 };
