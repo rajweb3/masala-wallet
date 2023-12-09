@@ -9,6 +9,24 @@ import { createWalletService } from "../services/wallet/createWallet";
 import { executeTxService } from "../services/wallet/executeTx";
 import { getBalanceService } from "../services/wallet/getBalance";
 import { getTxHistoryService } from "../services/wallet/getTxHistory";
+import { userLoginService } from "../services/wallet/userLogin";
+
+export const userLoginController = async (req: Request, res: Response) => {
+  try {
+    const validation = Joi.object({
+      userName: Joi.string().max(50).required(),
+      passwordHash: Joi.string().max(255).required(),
+    });
+
+    const responseValidation = validation.validate(req.body);
+    if (responseValidation.error) {
+      return responseInvalidArgumentsError(res, responseValidation);
+    }
+    return await userLoginService(req, res);
+  } catch (error: any) {
+    return internalServerError(res, error);
+  }
+};
 
 export const createWalletController = async (req: Request, res: Response) => {
   try {

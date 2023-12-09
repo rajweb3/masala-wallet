@@ -46,8 +46,6 @@ export const executeTxService = async (req: Request, res: Response) => {
       wallet
     );
 
-    console.log({proof})
-
     const tx = await contract.executeWalletTx(
       proof,
       userName,
@@ -56,8 +54,6 @@ export const executeTxService = async (req: Request, res: Response) => {
       value,
       data
     );
-
-    console.log({tx})
 
     await tx.wait();
     return responseSuccess(res, httpStatus.CREATED, {
