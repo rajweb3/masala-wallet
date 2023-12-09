@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { ethers, BigNumber, utils } from "ethers";
 import { Request, Response } from "express";
 import {
   internalServerError,
@@ -6,7 +6,8 @@ import {
 } from "../../config/commonResponse";
 import httpStatus from "../../config/httpStatus";
 import { networkInfo } from "../../config/networkConfig";
-import { BasicFactoryContract } from "../../config/abis/BasicFactoryContract";
+// import { BasicFactoryContract } from "../../config/abis/BasicFactoryContract";
+import { MasalaMasterContract } from "../../config/abis/MasalaMasterContract";
 const zokratesCrypto = require("../../config/zokratesCrypto.js");
 
 export const createWalletService = async (req: Request, res: Response) => {
@@ -35,7 +36,7 @@ export const createWalletService = async (req: Request, res: Response) => {
       );
       const contract = new ethers.Contract(
         network.contractAddress,
-        BasicFactoryContract,
+        MasalaMasterContract,
         wallet
       );
 
@@ -43,9 +44,11 @@ export const createWalletService = async (req: Request, res: Response) => {
         const tx = await contract.newWallet(userName, zokratesHash);
 
         const receipt = await tx.wait();
+        console.log("receipt", receipt);
         const walletCreatedEvent = receipt.events.find(
           (event: any) => event.event === "WalletDeployed"
         );
+        console.log("walletCreatedEvent", walletCreatedEvent);
         const walletAddress = walletCreatedEvent.args?.newWallet || "";
 
         walletInformation.push({

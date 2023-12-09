@@ -34,7 +34,7 @@ export const executeTxController = async (req: Request, res: Response) => {
       value: Joi.required(),
       data: Joi.required(),
       userName: Joi.string().max(255).required(),
-      proof: Joi.string().max(255).required(),
+      passwordHash: Joi.string().max(255).required(),
       chainId: Joi.string()
         .valid(...Object.values(ChainId))
         .required(),

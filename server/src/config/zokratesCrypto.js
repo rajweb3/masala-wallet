@@ -96,4 +96,61 @@ const generateStringHash = async (plainString) => {
   }
 };
 
-module.exports = { generateStringHash };
+const generateProof = async (password, hashedPassword, nonce) => {
+  try {
+    let { initialize } = await import("zokrates-js");
+    const zokratesProvider = await initialize();
+
+    const source =
+      'import "hashes/sha256/512bit" as sha256; import "utils/pack/u32/pack128" as pack128; import "utils/casts/u32_to_field" as u32_to_field; def main(private u32[16] encodedPassword, private field unpackedNonce, field pwdHashA, field pwdHashB, u32 nonce) { u32[8] lhs = [...encodedPassword[0..8]]; u32[8] rhs = [...encodedPassword[8..16]]; u32[8] r = sha256(lhs, rhs); field[2] h = [pack128(r[0..4]), pack128(r[4..8])]; assert(h[0] == pwdHashA); assert(h[1] == pwdHashB); assert(u32_to_field(nonce) == unpackedNonce);return;}';
+    // compilation
+    const artifacts = zokratesProvider.compile(source);
+    const uint32Encoded = getUintEncodedString(password);
+    console.log({ hashedPassword });
+    // computation
+    const { witness, output } = zokratesProvider.computeWitness(artifacts, [
+      uint32Encoded,
+      nonce,
+      ...hashedPassword,
+      `${nonce.toString()}`,
+    ]);
+    console.log({ output });
+    // run setup
+    const provingKeyData = await fs.readFileSync("proving.key");
+    const provingKey = new Uint8Array(provingKeyData);
+    // generate proof
+    const proof = zokratesProvider.generateProof(
+      artifacts.program,
+      witness,
+      provingKey
+    );
+    console.log({ proof: JSON.stringify(proof.proof), inputs: proof.inputs });
+    const transposedProof = [proof.proof.a, proof.proof.b, proof.proof.c];
+
+    return { proof: transposedProof, inputs: proof.inputs };
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+const getUnpackedNonce = async (nonce) => {
+  try {
+    let { initialize } = await import("zokrates-js");
+    const zokratesProvider = await initialize();
+
+    const source =
+      'import "utils/casts/u32_to_field" as u32_to_field; def main(u32 nonce) -> field { return u32_to_field(nonce); }';
+    // compilation
+    const artifacts = zokratesProvider.compile(source);
+    // computation
+    const { witness, output } = zokratesProvider.computeWitness(artifacts, [
+      nonce,
+    ]);
+    console.log("output", output);
+    return output;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+module.exports = { generateStringHash, generateProof, getUnpackedNonce };

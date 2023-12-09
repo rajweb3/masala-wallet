@@ -45,7 +45,7 @@ export const networkInfo: NetworkInfo[] = [
     explorer: "https://sepolia-blockscout.scroll.io",
     covalentChainId: getCovalentChainName("scroll-sepolia-testnet"),
     contractAddress: process.env?.SCROLL_BASIC_FACTORY_CONTRACT || "",
-    status: true,
+    status: false,
   },
   {
     name: "BASE_GOERLI_TESTNET",
