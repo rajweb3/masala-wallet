@@ -89,7 +89,7 @@ export const getBalanceController = async (req: Request, res: Response) => {
 export const txHistoryController = async (req: Request, res: Response) => {
   try {
     const validation = Joi.object({
-      chainId: Joi.number()
+      chainId: Joi.string()
         .valid(...Object.values(ChainId))
         .required(),
       address: Joi.string().required(),
