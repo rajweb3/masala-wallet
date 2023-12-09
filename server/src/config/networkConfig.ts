@@ -8,11 +8,11 @@ export enum NetworkType {
 
 export enum ChainId {
   MANTLE_TESTNET = "5001",
-  // SCROLL_ALFA = "534353",
   SCROLL_SEPOLIA = "534351",
-  BASE_GOERLI_TESTNET = "84531",
+  BASE_SEPOLIA_TESTNET = "84532",
   ARBITRUM_GOERLI = "421613",
   CELO_ALFAJORES = "44787",
+  POLYGON_MAINNET = "137",
 }
 
 export interface NetworkInfo {
@@ -45,17 +45,17 @@ export const networkInfo: NetworkInfo[] = [
     explorer: "https://sepolia-blockscout.scroll.io",
     covalentChainId: getCovalentChainName("scroll-sepolia-testnet"),
     contractAddress: process.env?.SCROLL_BASIC_FACTORY_CONTRACT || "",
-    status: false,
+    status: true,
   },
   {
-    name: "BASE_GOERLI_TESTNET",
-    chain: ChainId.BASE_GOERLI_TESTNET,
+    name: "BASE_SEPOLIA_TESTNET",
+    chain: ChainId.BASE_SEPOLIA_TESTNET,
     type: NetworkType.TESTNET,
-    providerUrl: `https://base-goerli.blockscout.com`,
-    explorer: `https://goerli.basescan.org`,
+    providerUrl: `https://sepolia.base.org`,
+    explorer: `https://sepolia-explorer.base.org`,
     covalentChainId: getCovalentChainName("base-testnet"),
     contractAddress: process.env?.BASE_BASIC_FACTORY_CONTRACT || "",
-    status: false,
+    status: true,
   },
   {
     name: "ARBITRUM_GOERLI",
@@ -76,6 +76,16 @@ export const networkInfo: NetworkInfo[] = [
     covalentChainId: null,
     contractAddress: process.env?.CELO_BASIC_FACTORY_CONTRACT || "",
     status: false,
+  },
+  {
+    name: "POLYGON_MAINNET",
+    chain: ChainId.POLYGON_MAINNET,
+    type: NetworkType.TESTNET,
+    providerUrl: `https://polygon-mainnet.infura.io`,
+    explorer: `https://polygonscan.com`,
+    covalentChainId: getCovalentChainName("polygon-zkevm-mainnet"),
+    contractAddress: process.env?.CELO_BASIC_FACTORY_CONTRACT || "",
+    status: true,
   },
 ];
 
