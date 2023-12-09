@@ -6,14 +6,14 @@ import {
   responseSuccess,
 } from "../../config/commonResponse";
 import httpStatus from "../../config/httpStatus";
-import { ChainId, getNetworkInformation } from "../../config/networkConfig";
+import { getNetworkInformation } from "../../config/networkConfig";
 import { BasicFactoryContract } from "../../config/abis/BasicFactoryContract";
 
-export const createWalletService = async (req: Request, res: Response) => {
+export const executeTxService = async (req: Request, res: Response) => {
   try {
-    const { userName, passwordHash } = req.body;
+    const { callee, value, data, userName, proof, chainId } = req.body;
 
-    const network = getNetworkInformation(ChainId.MANTLE_TESTNET);
+    const network = getNetworkInformation(chainId);
     if (!network.status || !network.data) {
       return requestFailed(res, httpStatus.BAD_REQUEST, network.message);
     }
@@ -32,7 +32,13 @@ export const createWalletService = async (req: Request, res: Response) => {
       wallet
     );
 
-    const tx = await contract.newWallet(userName, passwordHash);
+    const tx = await contract.executeWalletTx(
+      callee,
+      value,
+      data,
+      userName,
+      proof
+    );
 
     await tx.wait();
     return responseSuccess(res, httpStatus.CREATED, {

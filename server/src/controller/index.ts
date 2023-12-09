@@ -6,6 +6,9 @@ import {
 } from "../config/commonResponse";
 import { ChainId } from "../config/networkConfig";
 import { createWalletService } from "../services/wallet/createWallet";
+import { executeTxService } from "../services/wallet/executeTx";
+import { getBalanceService } from "../services/wallet/getBalance";
+import { getTxHistoryService } from "../services/wallet/getTxHistory";
 
 export const createWalletController = async (req: Request, res: Response) => {
   try {
@@ -30,8 +33,9 @@ export const executeTxController = async (req: Request, res: Response) => {
       callee: Joi.string().max(50).required(),
       value: Joi.required(),
       data: Joi.required(),
-      passwordHash: Joi.string().max(255).required(),
-      chainId: Joi.number()
+      userName: Joi.string().max(255).required(),
+      proof: Joi.string().max(255).required(),
+      chainId: Joi.string()
         .valid(...Object.values(ChainId))
         .required(),
     });
@@ -40,6 +44,8 @@ export const executeTxController = async (req: Request, res: Response) => {
     if (responseValidation.error) {
       return responseInvalidArgumentsError(res, responseValidation);
     }
+
+    return await executeTxService(req, res);
   } catch (error: any) {
     return internalServerError(res, error);
   }
@@ -73,6 +79,8 @@ export const getBalanceController = async (req: Request, res: Response) => {
     if (responseValidation.error) {
       return responseInvalidArgumentsError(res, responseValidation);
     }
+
+    return await getBalanceService(req, res);
   } catch (error: any) {
     return internalServerError(res, error);
   }
@@ -91,6 +99,8 @@ export const txHistoryController = async (req: Request, res: Response) => {
     if (responseValidation.error) {
       return responseInvalidArgumentsError(res, responseValidation);
     }
+
+    return await getTxHistoryService(req, res);
   } catch (error: any) {
     return internalServerError(res, error);
   }

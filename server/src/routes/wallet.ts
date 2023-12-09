@@ -8,7 +8,7 @@ import {
 const route = express.Router();
 
 route.post("/create", createWalletController);
-route.get("/execute", executeTxController);
+route.post("/execute", executeTxController);
 // route.get("/setup-guardians", setupGuardianController);
 route.get("/balance/:chainId/:address", getBalanceController);
 route.get("/tx-history/:chainId/:address", txHistoryController);

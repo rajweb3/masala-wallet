@@ -5,6 +5,7 @@ declare global {
       NODE_ENV: string;
       BASIC_FACTORY_CONTRACT: string;
       WALLET_PRIVATE_KEY: string;
+      COVALENT_API_KEY: string;
     }
   }
 }

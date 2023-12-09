@@ -1,4 +1,5 @@
 import { responseFunction } from "./commonResponse";
+import { CovalentChain, getCovalentChainName } from "./covalentInterfaces";
 
 export enum NetworkType {
   MAINNET,
@@ -14,7 +15,8 @@ export interface NetworkInfo {
   chain: ChainId;
   type: NetworkType;
   providerUrl: string;
-  networkScan: string;
+  explorer: string;
+  covalentChainId: CovalentChain;
 }
 
 const networkInfo: NetworkInfo[] = [
@@ -23,7 +25,8 @@ const networkInfo: NetworkInfo[] = [
     chain: ChainId.MANTLE_TESTNET,
     type: NetworkType.TESTNET,
     providerUrl: `https://rpc.testnet.mantle.xyz/`,
-    networkScan: "https://testnet.mantlescan.org/",
+    explorer: "https://explorer.testnet.mantle.xyz/",
+    covalentChainId: getCovalentChainName("mantle-testnet"),
   },
 ];
 
