@@ -1,8 +1,7 @@
 import { initialize } from "zokrates-js";
-import TextEncoder from "fastestsmallesttextencoderdecoder";
 
 const getUintEncodedString = (plainString) => {
-  const encoder = new TextEncoder();
+  // const encoder = new TextEncoder();
   // const plainStringEncoded = encoder.encode(plainString);
   const plainStringEncoded = stringToUint8Array(plainString);
   // 64 length

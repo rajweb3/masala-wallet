@@ -1,0 +1,3 @@
+const Stores = {
+  LoginDone: "LoginDone",
+};

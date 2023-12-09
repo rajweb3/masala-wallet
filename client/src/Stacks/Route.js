@@ -28,7 +28,7 @@ const Route = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName={Screens.Splash}
+        initialRouteName={Screens.BottomBar}
       >
         <Stack.Screen name={Screens.Splash} component={SplashScreen} />
         <Stack.Screen name={Screens.OnBoarding} component={OnBoardingScreen} />

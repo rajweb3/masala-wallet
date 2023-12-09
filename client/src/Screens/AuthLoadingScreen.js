@@ -10,6 +10,7 @@ import { Screens } from "../Stacks/Screens";
 import { createWalletApi } from "../Core/ApiCall/CallApi";
 import { generateStringHashMy } from "../Constants/generateStringHash";
 import axios from "axios";
+import { BASE_URL, WALLET_CREATE } from "../Core/ApiCall/EndPoint";
 
 const AuthLoadingScreen = () => {
   const navigation = useNavigation();
@@ -43,31 +44,17 @@ const AuthLoadingScreen = () => {
           },
         ]);
       } else if (isSignUp) {
-        console.log("body ---->", body);
-        const response = await axios.post(
-          "https://62d6-157-50-36-24.ngrok-free.app/wallet/create",
-          body
-        );
-        console.log("response ---->", response);
         await axios
-          .post("https://62d6-157-50-36-24.ngrok-free.app/wallet/create", body)
+          .post(BASE_URL + WALLET_CREATE, body)
           .then((res) => {
-            console.log("res", res);
+            console.log("res local", res);
+            navigation.reset({ routes: [{ name: Screens.BottomBar }] });
           })
           .catch((err) => {
-            console.log("err", err);
+            console.log("err local", err);
+            console.log("err local response", err?.response);
+            console.log("err local data", err?.data);
           });
-        // createWalletApi(body)
-        //   .then((res) => {
-        //     console.log("res", res);
-        //     navigation.navigate(Screens.AuthSuccess, {
-        //       isFromRecovery: true,
-        //     });
-        //   })
-        //   .catch((err) => {
-        //     console.warn("err", err);
-        //     navigation.goBack();
-        //   });
       } else {
         navigation.replace(Screens.AuthSuccess, {
           isFromGuardian: isFromGuardian,
