@@ -45,7 +45,11 @@ export const userLoginService = async (req: Request, res: Response) => {
         BigNumber.from(hash1).toString() === zokratesHash[0].toString() &&
         BigNumber.from(hash2).toString() === zokratesHash[1].toString()
       ) {
-        return responseSuccess(res, httpStatus.OK, { isValid: true });
+        const response = await contract.usernameInfo(userName);
+        return responseSuccess(res, httpStatus.OK, {
+          isValid: true,
+          data: { network: `${network.data.name}`, walletAddress: response },
+        });
       }
     } catch (error: any) {
       console.log("error", error);
