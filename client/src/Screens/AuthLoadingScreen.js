@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 import React, { useEffect } from "react";
 import { Colors } from "../Constants/Colors";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -13,6 +13,7 @@ const AuthLoadingScreen = () => {
   const route = useRoute();
   const isFromGuardian = route?.params?.isFromGuardian;
   const isFromRecovery = route?.params?.isFromRecovery;
+  const isLogin = route?.params?.isLogin;
 
   const authText =
     "Lighting up your hassle-free gateway to web3, please standby...";
@@ -23,11 +24,22 @@ const AuthLoadingScreen = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      navigation.replace(Screens.AuthSuccess, {
-        isFromGuardian: isFromGuardian,
-      });
+      if (isLogin) {
+        Alert.alert("Login Successfully", "", [
+          {
+            text: "Okay",
+            onPress: () => {
+              navigation.replace(Screens.BottomBar);
+            },
+          },
+        ]);
+      } else {
+        navigation.replace(Screens.AuthSuccess, {
+          isFromGuardian: isFromGuardian,
+        });
+      }
     }, 1000);
-  }, [isFromGuardian]);
+  }, [isFromGuardian, isLogin]);
 
   return (
     <View style={styles.cont}>

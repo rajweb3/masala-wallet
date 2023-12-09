@@ -12,6 +12,8 @@ import { textStyle } from "../Constants/textStyle";
 import { Colors } from "../Constants/Colors";
 import { Images } from "../Constants/Images";
 import { hp, wp } from "../Constants/Constant";
+import { useNavigation } from "@react-navigation/native";
+import { Screens } from "../Stacks/Screens";
 
 const WalletScreen = () => {
   return (
@@ -45,6 +47,7 @@ const styles = StyleSheet.create({
 });
 
 export const MainHeader = ({ text }) => {
+  const navigation = useNavigation();
   return (
     <View
       style={{
@@ -102,7 +105,9 @@ export const MainHeader = ({ text }) => {
             resizeMode="contain"
           />
         )}
-        onPress={() => {}}
+        onPress={() => {
+          // navigation.navigate(Screens.Settings);
+        }}
         size={hp("4")}
         style={{ position: "absolute", right: wp("2") }}
       />

@@ -4,26 +4,54 @@ import { Colors } from "../Constants/Colors";
 import { wp } from "../Constants/Constant";
 import { Button, Card, TextInput } from "react-native-paper";
 import { textStyle } from "../Constants/textStyle";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { Screens } from "../Stacks/Screens";
+import Utility from "../Constants/Utility";
+import { validateName } from "../Constants/validateCondition";
 
 const UserNameScreen = () => {
   const navigation = useNavigation();
+  const route = useRoute();
+  const isForLogin = route?.params?.isForLogin;
+  const [userName, setUserName] = useState("");
+
+  console.log("isForLogin", isForLogin);
+
+  const loginNextHandler = () => {
+    const isUserNameValid = validateName(userName, "Username");
+    if (isUserNameValid?.length > 0) {
+      Utility.showError(isUserNameValid[0]);
+    } else {
+      navigation.navigate(Screens.Password, { isForLogin: isForLogin });
+    }
+  };
+
+  const SignUpNextHandler = () => {
+    navigation.navigate(Screens.Password);
+  };
+
   return (
     <View style={styles.cont}>
       <AppName />
       <AuthCard no={"1"} text={"Enter Username"} />
-      <AuthNoteCard
-        text={
-          "Your username must be easy to recall. We recommend to define it to be directly related or relevant to you."
-        }
+      {!isForLogin && (
+        <AuthNoteCard
+          text={
+            "Your username must be easy to recall. We recommend to define it to be directly related or relevant to you."
+          }
+        />
+      )}
+      <AuthInput
+        placeholder={"Enter Username"}
+        label={"Username"}
+        value={userName}
+        onChangeText={(text) => {
+          setUserName(text);
+        }}
       />
-      <AuthInput placeholder={"Enter Username"} label={"Username"} />
       <AuthButton
         text={"Next"}
-        onPress={() => {
-          navigation.navigate(Screens.Password);
-        }}
+        onPress={isForLogin ? loginNextHandler : SignUpNextHandler}
       />
     </View>
   );
@@ -145,7 +173,7 @@ export const AuthInput = ({
           />
         )
       }
-      secureTextEntry={isPassword && isPasswordShow ? false : true}
+      secureTextEntry={isPassword ? (isPasswordShow ? false : true) : false}
     />
   );
 };

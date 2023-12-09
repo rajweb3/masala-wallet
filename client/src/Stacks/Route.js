@@ -16,6 +16,9 @@ import SplashScreen from "../Screens/SplashScreen";
 import StartScreen from "../Screens/StartScreen";
 import UserNameScreen from "../Screens/UserNameScreen";
 import PasswordScreen from "../Screens/PasswordScreen";
+import GuardianScreen from "../Screens/GuardianScreen";
+import ConfirmGuardians from "../Screens/ConfirmGuardians";
+import LoginScreen from "../Screens/LoginScreen";
 
 const Route = () => {
   const Stack = createNativeStackNavigator();
@@ -27,8 +30,14 @@ const Route = () => {
       >
         <Stack.Screen name={Screens.Splash} component={SplashScreen} />
         <Stack.Screen name={Screens.Start} component={StartScreen} />
+        <Stack.Screen name={Screens.Login} component={LoginScreen} />
         <Stack.Screen name={Screens.UserName} component={UserNameScreen} />
         <Stack.Screen name={Screens.Password} component={PasswordScreen} />
+        <Stack.Screen name={Screens.Guardian} component={GuardianScreen} />
+        <Stack.Screen
+          name={Screens.ConfirmGuardian}
+          component={ConfirmGuardians}
+        />
 
         <Stack.Screen name={Screens.BottomBar} component={BottomBar} />
         <Stack.Screen

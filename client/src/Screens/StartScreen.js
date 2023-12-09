@@ -13,6 +13,9 @@ const StartScreen = () => {
 
   const onPressConnect = () => {
     // lookupAddress();
+    navigation.replace(Screens.Login, {
+      isForLogin: true,
+    });
   };
 
   return (

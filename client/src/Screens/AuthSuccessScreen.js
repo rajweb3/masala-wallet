@@ -69,7 +69,7 @@ const AuthSuccessScreen = () => {
       <AuthButton
         text={isFromGuardian ? "Finish" : "Next"}
         onPress={() => {
-          navigation.navigate(Screens.Password);
+          navigation.navigate(Screens.Guardian);
         }}
       />
     </View>

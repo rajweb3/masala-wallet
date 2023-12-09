@@ -1,7 +1,7 @@
 import { StyleSheet, View } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { Colors } from "../Constants/Colors";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import {
   AppName,
   AuthButton,
@@ -10,9 +10,31 @@ import {
   AuthNoteCard,
 } from "./UserNameScreen";
 import { Screens } from "../Stacks/Screens";
+import { validatePassword } from "../Constants/validateCondition";
+import Utility from "../Constants/Utility";
 
 const PasswordScreen = () => {
+  const route = useRoute();
   const navigation = useNavigation();
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const nextHandler = () => {
+    const isValid = validatePassword(password);
+    const isValidConfirmPass = validatePassword(confirmPassword);
+    if (isValid?.length > 0) {
+      console.log("isValid[0]", isValid[0]);
+      Utility.showError(isValid[0]);
+    } else if (isValidConfirmPass?.length > 0) {
+      console.log("isValid[0]", isValidConfirmPass[0]);
+      Utility.showError(isValidConfirmPass[0]);
+    } else {
+      navigation.navigate(Screens.AuthSuccess, {
+        isFromRecovery: true,
+      });
+    }
+  };
+
   return (
     <View style={styles.cont}>
       <AppName />
@@ -32,12 +54,7 @@ const PasswordScreen = () => {
         label={"Confirm Password"}
         isPassword={true}
       />
-      <AuthButton
-        text={"Next"}
-        onPress={() => {
-          navigation.navigate(Screens.AuthSuccess);
-        }}
-      />
+      <AuthButton text={"Next"} onPress={nextHandler} />
     </View>
   );
 };

@@ -2,6 +2,7 @@ export const Screens = {
   Home: "Home",
   Splash: "Splash",
   Start: "Start",
+  Login: "Login",
   UserName: "UserName",
   Password: "Password",
   AuthLoading: "AuthLoading",
