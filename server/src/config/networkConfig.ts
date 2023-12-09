@@ -73,9 +73,9 @@ export const getNetworkInformation = (
   message?: string;
 } => {
   let networkType: NetworkType;
-  if (process.env.NODE_ENV === "dev") {
+  if (process.env?.NODE_ENV === "development") {
     networkType = NetworkType.TESTNET;
-  } else if (process.env.NODE_ENV === "prod") {
+  } else if (process.env?.NODE_ENV === "production") {
     networkType = NetworkType.MAINNET;
   } else {
     throw new Error("NODE_ENV is not set correctly. Set it to dev or prod.");

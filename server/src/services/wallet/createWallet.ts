@@ -7,6 +7,7 @@ import {
 import httpStatus from "../../config/httpStatus";
 import { networkInfo } from "../../config/networkConfig";
 import { BasicFactoryContract } from "../../config/abis/BasicFactoryContract";
+const zokratesCrypto = require("../../config/zokratesCrypto.js");
 
 export const createWalletService = async (req: Request, res: Response) => {
   try {
@@ -16,6 +17,8 @@ export const createWalletService = async (req: Request, res: Response) => {
       hash: string;
       walletAddress: string;
     }[] = [];
+
+    const zokratesHash = await zokratesCrypto.generateStringHash(passwordHash);
 
     const promises = networkInfo.map(async (network) => {
       if (!network.status) {
@@ -37,7 +40,7 @@ export const createWalletService = async (req: Request, res: Response) => {
       );
 
       try {
-        const tx = await contract.newWallet(userName, passwordHash);
+        const tx = await contract.newWallet(userName, zokratesHash);
 
         const receipt = await tx.wait();
         const walletCreatedEvent = receipt.events.find(

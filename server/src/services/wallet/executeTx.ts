@@ -8,6 +8,7 @@ import {
 import httpStatus from "../../config/httpStatus";
 import { getNetworkInformation } from "../../config/networkConfig";
 import { BasicFactoryContract } from "../../config/abis/BasicFactoryContract";
+const zokratesCrypto = require("../../config/zokratesCrypto.js");
 
 export const executeTxService = async (req: Request, res: Response) => {
   try {
@@ -17,6 +18,7 @@ export const executeTxService = async (req: Request, res: Response) => {
     if (!network.status || !network.data) {
       return requestFailed(res, httpStatus.BAD_REQUEST, network.message);
     }
+    const zokratesHash = await zokratesCrypto.generateStringHash(proof);
 
     const provider = new ethers.providers.JsonRpcProvider(
       network.data.providerUrl
@@ -37,7 +39,7 @@ export const executeTxService = async (req: Request, res: Response) => {
       value,
       data,
       userName,
-      proof
+      zokratesHash
     );
 
     await tx.wait();
