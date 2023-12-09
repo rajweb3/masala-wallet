@@ -12,7 +12,7 @@ import {
   SERVICE_CONTEXT,
   STABLE_TOKEN_ADDRESS,
   STABLE_TOKEN_CONTRACT,
-} from "./celoUtils";
+} from "./celo";
 
 // Define constants
 export const ONE_CENT_CUSD = parseEther("0.01"); // Represents 0.01 cUSD in wei
@@ -55,13 +55,6 @@ export class SocialConnectIssuer {
   async getObfuscatedId(plaintextId: string, identifierType: IdentifierPrefix) {
     // Fetch the obfuscated identifier using OdisUtils
     try {
-      console.log({
-        plaintextId,
-        identifierType,
-        address: this.wallet.address,
-        authSigner: this.authSigner,
-        serviceContext: this.serviceContext,
-      });
       const { obfuscatedIdentifier } =
         await OdisUtils.Identifier.getObfuscatedIdentifier(
           plaintextId,
@@ -72,7 +65,6 @@ export class SocialConnectIssuer {
         );
       return obfuscatedIdentifier;
     } catch (error: any) {
-      console.log(error);
       return "";
     }
   }
@@ -119,23 +111,20 @@ export class SocialConnectIssuer {
     address: string
   ) {
     try {
-      console.log({ plaintextId, identifierType });
       const obfuscatedId = await this.getObfuscatedIdWithQuotaRetry(
         plaintextId,
         identifierType
       );
-      console.log({ obfuscatedId });
       const tx =
         await this.federatedAttestationsContract.registerAttestationAsIssuer(
           obfuscatedId,
           address,
           NOW_TIMESTAMP
         );
-      console.log({ tx });
+
       const receipt = await tx.wait();
       return receipt;
     } catch (error: any) {
-      console.log("error:", error);
       return null;
     }
   }
@@ -166,7 +155,6 @@ export class SocialConnectIssuer {
       this.authSigner,
       this.serviceContext
     );
-    console.log("Remaining Quota", remainingQuota);
     return remainingQuota;
   }
 
