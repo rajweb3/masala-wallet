@@ -9,6 +9,9 @@ import { textStyle } from "../Constants/textStyle";
 import { Screens } from "../Stacks/Screens";
 import axios from "axios";
 import Utility from "../Constants/Utility";
+import { BASE_URL } from "../Core/ApiCall/EndPoint";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AsData } from "../Constants/AsData";
 
 const GuardianScreen = () => {
   const navigation = useNavigation();
@@ -23,12 +26,17 @@ const GuardianScreen = () => {
   const emailOne = "mmoniratna@gmail.com";
   const emailTwo = "boghranirav@gmail.com";
   const emailThree = "moniratna@nordfinance.io";
-  const urlOne = `http://localhost:1555/celo-auth/lookup?handle=${emailOne}&identifierType=google`;
-  const urlTwo = `http://localhost:1555/celo-auth/lookup?handle=${emailTwo}&identifierType=google`;
-  const urlThree = `http://localhost:1555/celo-auth/lookup?handle=${emailThree}&identifierType=google`;
+  const urlOne =
+    BASE_URL + `celo-auth/lookup?handle=${emailOne}&identifierType=google`;
+  const urlTwo =
+    BASE_URL + `celo-auth/lookup?handle=${emailTwo}&identifierType=google`;
+  const urlThree =
+    BASE_URL + `celo-auth/lookup?handle=${emailThree}&identifierType=google`;
   const fetchData = (url) => {
     return fetch(url)
       .then((response) => {
+        console.log("response", JSON.stringify(response));
+        console.log("response data", JSON.stringify(response?.data));
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -46,6 +54,7 @@ const GuardianScreen = () => {
   const callApi = () => {
     Promise.all([fetchData(urlOne), fetchData(urlTwo), fetchData(urlThree)])
       .then((data) => {
+        console.log("data", data.data[0]);
         // Handle the results from all APIs
         const result1 = data[0];
         const result2 = data[1];
@@ -112,6 +121,7 @@ const GuardianScreen = () => {
                 userEmail: emailThree,
               },
             ];
+            AsyncStorage.setItem(AsData.GuardianData, JSON.stringify(gData));
             navigation.navigate(Screens.ConfirmGuardian, {
               guardianData: gData,
             });

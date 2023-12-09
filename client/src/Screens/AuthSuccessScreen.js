@@ -8,6 +8,8 @@ import { Animations } from "../Constants/Animations";
 import { wp } from "../Constants/Constant";
 import { textStyle } from "../Constants/textStyle";
 import { Screens } from "../Stacks/Screens";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AsData } from "../Constants/AsData";
 
 const AuthSuccessScreen = () => {
   const navigation = useNavigation();
@@ -69,10 +71,11 @@ const AuthSuccessScreen = () => {
       <AuthButton
         text={isFromGuardian ? "Finish" : "Next"}
         onPress={() => {
-          if (isFromRecovery) {
+          if (isFromRecovery || isFromGuardian) {
             navigation.reset({ routes: [{ name: Screens.BottomBar }] });
+            AsyncStorage.setItem(AsData.LoginDone, "BottomBar");
           } else {
-            navigation.reset({ routes: [{ name: Screens.Guardian }] });
+            navigation.reset({ routes: [{ name: Screens.RecoveryGuardians }] });
           }
         }}
       />

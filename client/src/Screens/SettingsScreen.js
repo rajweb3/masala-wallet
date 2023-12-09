@@ -5,8 +5,12 @@ import { hp, wp } from "../Constants/Constant";
 import { textStyle } from "../Constants/textStyle";
 import { Colors } from "../Constants/Colors";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AsData } from "../Constants/AsData";
+import { Screens } from "../Stacks/Screens";
 
 const SettingsScreen = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.cont}>
       <Header text="Settings" />
@@ -30,7 +34,12 @@ const SettingsScreen = () => {
             alignSelf: "center",
             borderColor: Colors.yellow,
           }}
-          onPress={() => {}}
+          onPress={() => {
+            AsyncStorage.removeItem(AsData.AfterLoginData);
+            AsyncStorage.removeItem(AsData.LoginData);
+            AsyncStorage.removeItem(AsData.LoginDone);
+            navigation.reset({ routes: [{ name: Screens.Start }] });
+          }}
         >
           End Section
         </Button>

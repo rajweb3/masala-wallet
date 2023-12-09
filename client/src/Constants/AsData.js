@@ -1,4 +1,6 @@
 export const AsData = {
-  LoginDone: "LoginDonded",
+  LoginDone: "LoginDone",
   LoginData: "LoginData",
+  AfterLoginData: "AfterLoginData",
+  GuardianData: "GuardianData",
 };

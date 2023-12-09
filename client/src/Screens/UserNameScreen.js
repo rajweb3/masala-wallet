@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { Colors } from "../Constants/Colors";
 import { wp } from "../Constants/Constant";
@@ -154,6 +154,7 @@ export const AuthInput = ({
   onChangeText,
   value,
   otherStyle,
+  keyboardType,
 }) => {
   const [isPasswordShow, setIsPasswordShow] = useState();
   return (
@@ -183,19 +184,29 @@ export const AuthInput = ({
         )
       }
       secureTextEntry={isPassword ? (isPasswordShow ? false : true) : false}
+      keyboardType={keyboardType}
     />
   );
 };
 
-export const AuthButton = ({ text, onPress, otherStyle }) => {
+export const AuthButton = ({ text, onPress, otherStyle, loading }) => {
+  console.log("loading", loading);
   return (
-    <Button
-      mode="contained"
-      labelStyle={textStyle(4, Colors.black)}
-      style={[{ marginTop: wp("6") }, otherStyle]}
-      onPress={onPress}
-    >
-      {text}
-    </Button>
+    <>
+      {loading ? (
+        <View style={[{ height: wp("6"), marginTop: wp("6") }, otherStyle]}>
+          <ActivityIndicator size={"large"} color={Colors.yellow} />
+        </View>
+      ) : (
+        <Button
+          mode="contained"
+          labelStyle={textStyle(4, Colors.black)}
+          style={[{ marginTop: wp("6") }, otherStyle]}
+          onPress={onPress}
+        >
+          {text}
+        </Button>
+      )}
+    </>
   );
 };

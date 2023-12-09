@@ -6,6 +6,8 @@ import { AppName, AuthButton, AuthNoteCard } from "./UserNameScreen";
 import { wp } from "../Constants/Constant";
 import Contacts from "react-native-contacts";
 import { Screens } from "../Stacks/Screens";
+import { AsData } from "../Constants/AsData";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const RecoveryGuardiansScreen = () => {
   const navigation = useNavigation();
@@ -21,7 +23,7 @@ const RecoveryGuardiansScreen = () => {
         Contacts.getAll()
           .then((contacts) => {
             // work with contacts
-            console.log("contacts --->", contacts);
+            // console.log("contacts --->", contacts);
             navigation.navigate(Screens.Guardian);
           })
           .catch((e) => {

@@ -12,6 +12,7 @@ import {
 import { Screens } from "../Stacks/Screens";
 import { validateName, validatePassword } from "../Constants/validateCondition";
 import Utility from "../Constants/Utility";
+import RNHash, { CONSTANTS } from "react-native-hash";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
@@ -27,9 +28,20 @@ const LoginScreen = () => {
       console.log("isValid[0]", isValidPassword[0]);
       Utility.showError(isValidPassword[0]);
     } else {
-      navigation.navigate(Screens.AuthLoading, {
-        isLogin: true,
-      });
+      RNHash.hashString(password, CONSTANTS.HashAlgorithms.sha256)
+        .then((hash) => {
+          console.log("hash", hash);
+          const body = {
+            userName: userName,
+            passwordHash: hash,
+          };
+          console.log("body", body);
+          navigation.navigate(Screens.AuthLoading, {
+            isLogin: true,
+            loginBody: body,
+          });
+        })
+        .catch((e) => console.log(e));
     }
   };
 

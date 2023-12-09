@@ -7,12 +7,16 @@ import { ActivityIndicator } from "react-native-paper";
 import { wp } from "../Constants/Constant";
 import { textStyle } from "../Constants/textStyle";
 import { Screens } from "../Stacks/Screens";
-import { createWalletApi } from "../Core/ApiCall/CallApi";
-import { generateStringHashMy } from "../Constants/generateStringHash";
 import axios from "axios";
-import { BASE_URL, WALLET_CREATE } from "../Core/ApiCall/EndPoint";
+import {
+  BASE_URL,
+  WALLET_CREATE,
+  WALLET_LOGIN,
+} from "../Core/ApiCall/EndPoint";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AsData } from "../Constants/AsData";
+import Utility from "../Constants/Utility";
+import { loginApi } from "../Core/ApiCall/CallApi";
 
 const AuthLoadingScreen = () => {
   const navigation = useNavigation();
@@ -22,6 +26,7 @@ const AuthLoadingScreen = () => {
   const isLogin = route?.params?.isLogin;
   const isSignUp = route?.params?.isSignUp;
   const body = route?.params?.body;
+  const loginBody = route?.params?.loginBody;
 
   // const hashPassword = generateStringHashMy();
 
@@ -37,26 +42,72 @@ const AuthLoadingScreen = () => {
   useEffect(() => {
     setTimeout(async () => {
       if (isLogin) {
-        Alert.alert("Login Successfully", "", [
-          {
-            text: "Okay",
-            onPress: () => {
-              navigation.replace(Screens.BottomBar);
-            },
-          },
-        ]);
+        console.log("loginBody", loginBody);
+        await axios
+          .post(BASE_URL + WALLET_LOGIN, loginBody)
+          .then((res) => {
+            console.log("res local", JSON.stringify(res?.data));
+            AsyncStorage.setItem(AsData.LoginData, JSON.stringify(loginBody));
+            Alert.alert("Login Successfully", "", [
+              {
+                text: "Okay",
+                onPress: () => {
+                  navigation.replace(Screens.BottomBar);
+                },
+              },
+            ]);
+            AsyncStorage.setItem(AsData.LoginDone, "BottomBar");
+            console.log("res?.data?.data", [res?.data?.data?.data]);
+            AsyncStorage.setItem(
+              AsData.AfterLoginData,
+              JSON.stringify([res?.data?.data?.data])
+            );
+          })
+          .catch((err) => {
+            navigation.goBack();
+            if (err?.code == 504) {
+              Utility.showError("Server time out please try again");
+            }
+            console.log("err local", err);
+            console.log("err local response", err?.response);
+            console.log("err local data", err?.data);
+          });
+        // loginApi(loginBody)
+        //   .then((res) => {
+        //     console.log("res loginApi", res);
+        // Alert.alert("Login Successfully", "", [
+        //   {
+        //     text: "Okay",
+        //     onPress: () => {
+        //       navigation.replace(Screens.BottomBar);
+        //     },
+        //   },
+        // ]);
+        //   })
+        //   .catch((err) => {
+        //     console.log("err loginApi", err);
+        //     navigation.goBack();
+        //   });
       } else if (isSignUp) {
         await axios
           .post(BASE_URL + WALLET_CREATE, body)
           .then((res) => {
-            console.log("res local", res);
+            console.log("res local", JSON.stringify(res?.data));
             navigation.replace(Screens.AuthSuccess, {
               isSignUp: isSignUp,
             });
             AsyncStorage.setItem(AsData.LoginDone, "RecoverySetup");
             AsyncStorage.setItem(AsData.LoginData, JSON.stringify(body));
+            AsyncStorage.setItem(
+              AsData.AfterLoginData,
+              JSON.stringify(res?.data?.data)
+            );
           })
           .catch((err) => {
+            navigation.goBack();
+            if (err?.code == 504) {
+              Utility.showError("Server time out please try again");
+            }
             console.log("err local", err);
             console.log("err local response", err?.response);
             console.log("err local data", err?.data);

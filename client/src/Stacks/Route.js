@@ -29,7 +29,7 @@ const Route = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName={Screens.BottomBar}
+        initialRouteName={Screens.Splash}
       >
         <Stack.Screen name={Screens.Splash} component={SplashScreen} />
         <Stack.Screen

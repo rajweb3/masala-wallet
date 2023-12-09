@@ -18,24 +18,30 @@ import { KeyCard, TransCard } from "./TransactScreen";
 import { getWalletTxHistoryApi } from "../Core/ApiCall/CallApi";
 import moment from "moment";
 import { SvgUri } from "react-native-svg";
+import { useSelector } from "react-redux";
 
 const ActivityScreen = () => {
   const [value, setValue] = React.useState("Open Txs");
   const [loading, setLoading] = useState(false);
   const [txData, setTxData] = useState();
+  const { userInfoData, networkName, selectedTestNet, networkId } = useSelector(
+    (state) => state.userInfo
+  );
 
   useEffect(() => {
     setLoading(true);
-    getWalletTxHistoryApi()
-      .then((res) => {
-        console.log("getWalletTxHistoryApi", res?.data);
-        setTxData(res?.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log("err getWalletTxHistoryApi", err);
-      });
+    if (networkId && selectedTestNet) {
+      getWalletTxHistoryApi(networkId, selectedTestNet?.walletAddress)
+        .then((res) => {
+          console.log("getWalletTxHistoryApi", res?.data);
+          setTxData(res?.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.log("err getWalletTxHistoryApi", err);
+        });
+    }
   }, []);
 
   return (

@@ -14,8 +14,10 @@ const SplashScreen = () => {
   useEffect(() => {
     AsyncStorage.getItem(AsData.LoginDone).then((res) => {
       console.log("res AsyncStorage", res);
-      if (res == "RecoverySetup") {
+      if (res && res == "RecoverySetup") {
         navigation.replace(Screens.RecoveryGuardians);
+      } else if (res && res == "BottomBar") {
+        navigation.replace(Screens.BottomBar);
       } else {
         navigation.replace(Screens.Start);
       }
@@ -26,7 +28,7 @@ const SplashScreen = () => {
     <View style={styles.cont}>
       <Image
         source={Images.Splash}
-        style={{ width: wp(100), height: wp(100) }}
+        style={{ width: wp(70), height: wp(70) }}
         resizeMode="contain"
       />
     </View>
