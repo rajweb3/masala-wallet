@@ -1,5 +1,5 @@
 {
-  "name": "EthProject",
+  "name": "masalawallet",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -34,6 +34,7 @@
     "react-native-hash": "^3.0.3",
     "react-native-modal": "^13.0.1",
     "react-native-paper": "^5.11.3",
+    "react-native-rename": "^3.2.13",
     "react-native-responsive-screen": "^1.4.2",
     "react-native-safe-area-context": "^4.7.4",
     "react-native-screens": "^3.27.0",

@@ -41,7 +41,7 @@ const SettingsScreen = () => {
             navigation.reset({ routes: [{ name: Screens.Start }] });
           }}
         >
-          End Section
+          End Session
         </Button>
       </View>
     </View>

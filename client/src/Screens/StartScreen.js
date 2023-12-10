@@ -9,6 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Screens } from "../Stacks/Screens";
 import axios from "axios";
 import { generateStringHashMy } from "../Constants/generateStringHash";
+import { AppName } from "./UserNameScreen";
 
 const StartScreen = () => {
   const navigation = useNavigation();
@@ -48,6 +49,7 @@ const StartScreen = () => {
         }}
         resizeMode="contain"
       />
+      <AppName />
       <Button
         mode="contained"
         textColor={Colors.black}
