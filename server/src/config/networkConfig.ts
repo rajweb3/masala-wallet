@@ -86,7 +86,7 @@ export const networkInfo: NetworkInfo[] = [
     explorer: `https://polygonscan.com`,
     covalentChainId: getCovalentChainName("polygon-zkevm-mainnet"),
     contractAddress: process.env?.POLYGON_BASIC_FACTORY_CONTRACT || "",
-    status: true,
+    status: false,
   },
   {
     name: "OKX",
