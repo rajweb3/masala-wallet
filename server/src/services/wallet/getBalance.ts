@@ -18,6 +18,13 @@ export const getBalanceService = async (req: Request, res: Response) => {
     if (!network.status || !network.data) {
       return requestFailed(res, httpStatus.BAD_REQUEST, network.message);
     }
+    if (!network.data.status) {
+      return requestFailed(
+        res,
+        httpStatus.METHOD_NOT_ALLOWED,
+        "Network Not Supported!"
+      );
+    }
 
     let balance = "0";
     if (network.data.chain === ChainId.CELO_ALFAJORES) {

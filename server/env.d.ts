@@ -19,6 +19,7 @@ declare global {
       ARBITRUM_BASIC_FACTORY_CONTRACT: string;
       CELO_BASIC_FACTORY_CONTRACT: string;
       POLYGON_BASIC_FACTORY_CONTRACT: string;
+      X1_BASIC_FACTORY_CONTRACT: string;
     }
   }
 }
