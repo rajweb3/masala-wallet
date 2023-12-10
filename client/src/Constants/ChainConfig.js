@@ -16,19 +16,19 @@ export const ChainConfig = [
   {
     id: "84532",
     name: "Base Georli",
-    imageUrl: Images.Mantle,
+    imageUrl: Images.Base_Georli,
     network: "BASE_GOERLI_TESTNET",
   },
   {
     id: "421613",
     name: "Arbitrum Goerli",
-    imageUrl: Images.Mantle,
+    imageUrl: Images.Arbitrum_Goerl,
     network: "ARBITRUM_GOERLI",
   },
   {
     id: "44787",
     name: "Cello",
-    imageUrl: Images.Mantle,
+    imageUrl: Images.Cello,
     network: "CELO_ALFAJORES",
   },
   // {

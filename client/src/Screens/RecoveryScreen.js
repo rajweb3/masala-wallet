@@ -21,6 +21,7 @@ import { Screens } from "../Stacks/Screens";
 import { AsData } from "../Constants/AsData";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSelector } from "react-redux";
+import { NoTxAvail } from "./ActivityScreen";
 
 const RecoveryScreen = () => {
   const [value, setValue] = React.useState("Open Txs");
@@ -49,30 +50,36 @@ const RecoveryScreen = () => {
         >
           Guardians
         </Text>
-        <GuardianCard
-          otherStyle={{ marginTop: wp("10") }}
-          isBorderShow={true}
-          hideCheckBox={true}
-          userEmail={guardianData[0]?.userEmail}
-          walletAddress={guardianData[0]?.walletAddress}
-        />
-        <GuardianCard
-          isBorderShow={true}
-          hideCheckBox={true}
-          userEmail={guardianData[1]?.userEmail}
-          walletAddress={guardianData[1]?.walletAddress}
-        />
-        <GuardianCard
-          hideCheckBox={true}
-          userEmail={guardianData[2]?.userEmail}
-          walletAddress={guardianData[2]?.walletAddress}
-        />
-        <OutLineButton
-          text={"Initiate Recovery"}
-          onPress={() => {
-            navigation.navigate(Screens.RecoveryPassword);
-          }}
-        />
+        {guardianData?.length > 0 ? (
+          <>
+            <GuardianCard
+              otherStyle={{ marginTop: wp("10") }}
+              isBorderShow={true}
+              hideCheckBox={true}
+              userEmail={guardianData[0]?.userEmail}
+              walletAddress={guardianData[0]?.walletAddress}
+            />
+            <GuardianCard
+              isBorderShow={true}
+              hideCheckBox={true}
+              userEmail={guardianData[1]?.userEmail}
+              walletAddress={guardianData[1]?.walletAddress}
+            />
+            <GuardianCard
+              hideCheckBox={true}
+              userEmail={guardianData[2]?.userEmail}
+              walletAddress={guardianData[2]?.walletAddress}
+            />
+            <OutLineButton
+              text={"Initiate Recovery"}
+              onPress={() => {
+                navigation.navigate(Screens.RecoveryPassword);
+              }}
+            />
+          </>
+        ) : (
+          <NoTxAvail text={"No guardians available"} />
+        )}
       </ScrollView>
     </View>
   );

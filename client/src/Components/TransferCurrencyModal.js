@@ -46,22 +46,22 @@ export const TransferCurrencyModal = ({ visible, onPressCancel }) => {
     } else if (!amount) {
       Utility.showError("Please Enter amount");
     } else {
-      let LoginData;
       AsyncStorage.getItem(AsData.LoginData)
         .then(JSON.parse)
         .then((LoginData) => {
           console.log("res", LoginData);
           console.log("LoginData ---->", LoginData);
+          const amountVal = +amount;
           const body = {
             userName: LoginData?.userName,
             passwordHash: LoginData.passwordHash,
             callee: address,
-            value: amount * 10 ** 18,
+            value: amountVal * 10 ** 18,
             data: "0x",
             chainId: networkId + "",
           };
-          setLoading(true);
           console.log("body", body);
+          setLoading(true);
           axios
             .post(BASE_URL + WALLET_EXECUTE, body)
             .then((res) => {
@@ -80,7 +80,7 @@ export const TransferCurrencyModal = ({ visible, onPressCancel }) => {
       // setLoading(true);
     }
   };
-  console.log("loading", loading);
+
   return (
     <Modal
       animationType="slide"

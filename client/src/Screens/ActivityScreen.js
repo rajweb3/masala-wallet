@@ -96,10 +96,12 @@ const ActivityScreen = () => {
 
 export default ActivityScreen;
 
-const NoTxAvail = () => {
+export const NoTxAvail = ({ text }) => {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text style={textStyle(4, Colors.black)}>No Txs available</Text>
+      <Text style={textStyle(4, Colors.black)}>
+        {text ? text : "No Txs available"}
+      </Text>
     </View>
   );
 };

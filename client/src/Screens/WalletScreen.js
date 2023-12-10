@@ -34,6 +34,9 @@ import {
   getUserInfo,
   setSelectedTestNet,
 } from "../Core/Redux/Slices/GetUserInfoSlice";
+import Clipboard from "@react-native-clipboard/clipboard";
+import Utility from "../Constants/Utility";
+import { ChainConfig } from "../Constants/ChainConfig";
 
 const WalletScreen = () => {
   const [balance, setBalance] = useState();
@@ -53,7 +56,12 @@ const WalletScreen = () => {
       .then((res) => {
         console.log("res---->", res);
         dispatch(getUserInfo(res));
-        dispatch(setSelectedTestNet(res[0]));
+        const data = {
+          hash: res[0]?.hash,
+          network: ChainConfig[0].network,
+          walletAddress: res[0]?.walletAddress,
+        };
+        dispatch(setSelectedTestNet(data));
       });
   }, []);
 
@@ -63,23 +71,6 @@ const WalletScreen = () => {
     console.log("selectedTestNet", selectedTestNet);
     console.log("networkId", networkId);
   }, [selectedTestNet, networkId]);
-
-  const wagmiAddress = () => {
-    if (isConnecting) return <Text>Connecting…</Text>;
-    if (isDisconnected) return <Text>Disconnected</Text>;
-    return (
-      <Text
-        style={{
-          backgroundColor: "pink",
-          fontSize: 22,
-          color: "black",
-          fontWeight: "700",
-        }}
-      >
-        {address}
-      </Text>
-    );
-  };
 
   useEffect(() => {
     console.log(
@@ -278,7 +269,13 @@ const WalletCard = ({ balance }) => {
           >
             {selectedTestNet?.walletAddress}
           </Text>
-          <IconButton icon={"content-copy"} />
+          <IconButton
+            icon={"content-copy"}
+            onPress={() => {
+              Clipboard.setString(selectedTestNet?.walletAddress);
+              Utility.showToast("Copied Successfully");
+            }}
+          />
         </View>
       </View>
       <View style={wStyles.logoTitle}>
@@ -345,7 +342,7 @@ const TokenCard = ({ item }) => {
         style={{ flexDirection: "row", alignItems: "center", gap: wp("4") }}
       >
         <Image
-          source={Images.Thumbnail}
+          source={item.icon ? item?.icon : Images.Thumbnail}
           style={{ width: wp("9"), height: wp("9") }}
           resizeMode="contain"
         />

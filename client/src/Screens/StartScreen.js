@@ -1,4 +1,4 @@
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import React, { useEffect } from "react";
 import { Images } from "../Constants/Images";
 import { wp } from "../Constants/Constant";
@@ -10,6 +10,7 @@ import { Screens } from "../Stacks/Screens";
 import axios from "axios";
 import { generateStringHashMy } from "../Constants/generateStringHash";
 import { AppName } from "./UserNameScreen";
+import { textStyle } from "../Constants/textStyle";
 
 const StartScreen = () => {
   const navigation = useNavigation();
@@ -44,12 +45,25 @@ const StartScreen = () => {
         style={{
           width: wp(64),
           height: wp(64),
-          marginBottom: wp("20"),
+          marginBottom: wp("6"),
           alignSelf: "center",
         }}
         resizeMode="contain"
       />
-      <AppName />
+      {/* <AppName
+        title={`Masala Wallet:${"\n"} Securely Spicing Up wallet Accessibility`}
+      /> */}
+      <Text style={[textStyle(6.4, Colors.black), { textAlign: "center" }]}>
+        Masala Wallet:
+      </Text>
+      <Text
+        style={[
+          textStyle(4.5, Colors.black),
+          { textAlign: "center", marginBottom: wp("10"), marginTop: wp("1.6") },
+        ]}
+      >
+        Securely Spicing Up wallet Accessibility
+      </Text>
       <Button
         mode="contained"
         textColor={Colors.black}

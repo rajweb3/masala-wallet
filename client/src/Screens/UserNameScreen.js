@@ -75,7 +75,14 @@ const styles = StyleSheet.create({
 
 export const AppName = ({ title }) => {
   return (
-    <Text style={{ fontSize: wp("8"), color: "black", alignSelf: "center" }}>
+    <Text
+      style={{
+        fontSize: wp("8"),
+        color: "black",
+        alignSelf: "center",
+        textAlign: "center",
+      }}
+    >
       {title ? title : "Masala Wallet"}
     </Text>
   );

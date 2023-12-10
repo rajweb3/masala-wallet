@@ -76,10 +76,11 @@ const WalletModal = ({ visible, onPressCancel, onPressItem, data }) => {
                   <Image
                     source={item.imageUrl}
                     style={{
-                      width: wp("6"),
-                      height: wp("6"),
+                      width: wp("7.2"),
+                      height: wp("7.2"),
                       margin: wp("3"),
-                      tintColor: item.imageUrl == Images.Mantle && Colors.black,
+                      marginRight: wp("6"),
+                      borderRadius: wp("3.6"),
                     }}
                     resizeMode="contain"
                   />
