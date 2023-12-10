@@ -24,6 +24,14 @@ export const executeTxService = async (req: Request, res: Response) => {
     if (!network.status || !network.data) {
       return requestFailed(res, httpStatus.BAD_REQUEST, network.message);
     }
+    if (!network.data.status) {
+      return requestFailed(
+        res,
+        httpStatus.METHOD_NOT_ALLOWED,
+        "Network Not Supported!"
+      );
+    }
+
     const zokratesHash = await zokratesCrypto.generateStringHash(passwordHash);
     const nonce = generateRandomNonce();
     const { proof, inputs } = await zokratesCrypto.generateProof(

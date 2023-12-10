@@ -13,6 +13,7 @@ export enum ChainId {
   ARBITRUM_GOERLI = "421613",
   CELO_ALFAJORES = "44787",
   POLYGON_MAINNET = "137",
+  OKX = "195",
 }
 
 export interface NetworkInfo {
@@ -55,7 +56,7 @@ export const networkInfo: NetworkInfo[] = [
     explorer: `https://sepolia-explorer.base.org`,
     covalentChainId: getCovalentChainName("base-testnet"),
     contractAddress: process.env?.BASE_BASIC_FACTORY_CONTRACT || "",
-    status: true,
+    status: false,
   },
   {
     name: "ARBITRUM_GOERLI",
@@ -65,7 +66,7 @@ export const networkInfo: NetworkInfo[] = [
     explorer: `https://testnet.arbiscan.io`,
     covalentChainId: getCovalentChainName("arbitrum-goerli"),
     contractAddress: process.env?.ARBITRUM_BASIC_FACTORY_CONTRACT || "",
-    status: false,
+    status: true,
   },
   {
     name: "CELO_ALFAJORES",
@@ -75,7 +76,7 @@ export const networkInfo: NetworkInfo[] = [
     explorer: `https://alfajores.celoscan.io/`,
     covalentChainId: null,
     contractAddress: process.env?.CELO_BASIC_FACTORY_CONTRACT || "",
-    status: false,
+    status: true,
   },
   {
     name: "POLYGON_MAINNET",
@@ -84,7 +85,17 @@ export const networkInfo: NetworkInfo[] = [
     providerUrl: `https://polygon-mainnet.infura.io`,
     explorer: `https://polygonscan.com`,
     covalentChainId: getCovalentChainName("polygon-zkevm-mainnet"),
-    contractAddress: process.env?.CELO_BASIC_FACTORY_CONTRACT || "",
+    contractAddress: process.env?.POLYGON_BASIC_FACTORY_CONTRACT || "",
+    status: false,
+  },
+  {
+    name: "OKX",
+    chain: ChainId.OKX,
+    type: NetworkType.TESTNET,
+    providerUrl: `https://testrpc.x1.tech`,
+    explorer: `https://www.oklink.com/x1-test`,
+    covalentChainId: null,
+    contractAddress: process.env?.X1_BASIC_FACTORY_CONTRACT || "",
     status: true,
   },
 ];

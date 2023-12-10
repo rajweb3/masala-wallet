@@ -1,13 +1,13 @@
-import { ethers } from "ethers";
+import { ethers, utils } from "ethers";
 import { Request, Response } from "express";
 import {
   internalServerError,
   responseSuccess,
 } from "../../config/commonResponse";
 import httpStatus from "../../config/httpStatus";
-import { networkInfo } from "../../config/networkConfig";
-// import { BasicFactoryContract } from "../../config/abis/BasicFactoryContract";
+import { ChainId, networkInfo } from "../../config/networkConfig";
 import { MasalaMasterContract } from "../../config/abis/MasalaMasterContract";
+import { callPaymasterAndDataForEstimateGas } from "../../utils/basePaymaster";
 const zokratesCrypto = require("../../config/zokratesCrypto.js");
 
 export const createWalletService = async (req: Request, res: Response) => {
@@ -41,20 +41,33 @@ export const createWalletService = async (req: Request, res: Response) => {
       );
 
       try {
-        const tx = await contract.newWallet(userName, zokratesHash);
+        if (network.chain === ChainId.BASE_SEPOLIA_TESTNET) {
+          const contractInterface = new utils.Interface(MasalaMasterContract);
+          const encodedData = contractInterface.encodeFunctionData(
+            "newWallet",
+            [userName, zokratesHash]
+          );
+          const responseGas = await callPaymasterAndDataForEstimateGas({
+            contractAddress: network.contractAddress,
+            encodedData,
+          });
+          console.log({ responseGas });
+        } else {
+          const tx = await contract.newWallet(userName, zokratesHash);
 
-        const receipt = await tx.wait();
+          const receipt = await tx.wait();
 
-        const walletCreatedEvent = receipt.events.find(
-          (event: any) => event.event === "WalletDeployed"
-        );
-        const walletAddress = walletCreatedEvent?.args[0] || "";
+          const walletCreatedEvent = receipt.events.find(
+            (event: any) => event.event === "WalletDeployed"
+          );
+          const walletAddress = walletCreatedEvent?.args[0] || "";
 
-        walletInformation.push({
-          network: `${network.name}`,
-          hash: `${network.explorer}/tx/${tx?.hash}`,
-          walletAddress,
-        });
+          walletInformation.push({
+            network: `${network.name}`,
+            hash: `${network.explorer}/tx/${tx?.hash}`,
+            walletAddress,
+          });
+        }
       } catch (error: any) {
         console.log("error", error);
       }
