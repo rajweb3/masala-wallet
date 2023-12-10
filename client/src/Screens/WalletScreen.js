@@ -193,6 +193,7 @@ export const MainHeader = () => {
           style={{
             width: wp("5"),
             height: wp("5"),
+            borderRadius: wp("2.5"),
           }}
           resizeMode="contain"
         />
