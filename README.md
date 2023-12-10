@@ -3,6 +3,8 @@
 First commit for eth india 2023 at 21:48:42 Dec 8th: Here we go
 
 # Masala Wallet
+![MasalaWallet](https://github.com/rajweb3/masala-wallet/assets/58905877/27c46cfc-9ce5-4b80-bd6b-44cb9a17c07d)
+
 
 ## Overview
 
