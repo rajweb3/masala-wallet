@@ -1,7 +1,11 @@
 import { Linking, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { AuthButton } from "./UserNameScreen";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import {
+  useIsFocused,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import { Colors } from "../Constants/Colors";
 import LottieView from "lottie-react-native";
 import { Animations } from "../Constants/Animations";
@@ -14,6 +18,7 @@ import { AsData } from "../Constants/AsData";
 const AuthSuccessScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
+  const isFocused = useIsFocused();
   const isFromGuardian = route?.params?.isFromGuardian;
   const isFromRecovery = route?.params?.isFromRecovery;
   const [userData, setUserData] = useState();
@@ -34,7 +39,7 @@ const AuthSuccessScreen = () => {
         console.log("res AfterLoginData", res[0]);
         setUserData(res[0]);
       });
-  }, []);
+  }, [isFocused]);
 
   return (
     <View style={styles.cont}>
@@ -67,7 +72,7 @@ const AuthSuccessScreen = () => {
           }}
         >
           Address: {"\n"}
-          {userData.walletAddress}
+          {userData?.walletAddress}
         </Text>
       )}
       <Text
