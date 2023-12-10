@@ -17,10 +17,17 @@ import { Colors } from "../Constants/Colors";
 import { IconButton } from "react-native-paper";
 import { ChainConfig } from "../Constants/ChainConfig";
 import { Images } from "../Constants/Images";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedTestNet } from "../Core/Redux/Slices/GetUserInfoSlice";
 
 //#region: Project dependency
 
 const WalletModal = ({ visible, onPressCancel, onPressItem, data }) => {
+  const dispatch = useDispatch();
+  const { userInfoData, selectedTestNet, networkId } = useSelector(
+    (state) => state.userInfo
+  );
+
   return (
     <Modal
       animationType="slide"
@@ -35,7 +42,7 @@ const WalletModal = ({ visible, onPressCancel, onPressItem, data }) => {
         </TouchableWithoutFeedback>
         <View style={styles.modalSubContainer}>
           <View style={styles.headerCont}>
-            <Text style={styles.title}>Wallets</Text>
+            <Text style={styles.title}>Networks</Text>
             <IconButton
               icon={"close"}
               style={styles.closeIcon}
@@ -47,29 +54,38 @@ const WalletModal = ({ visible, onPressCancel, onPressItem, data }) => {
             data={ChainConfig}
             renderItem={({ item, index }) => {
               return (
-                <View
+                <TouchableOpacity
                   style={{
                     width: wp("90"),
                     flexDirection: "row",
                     alignItems: "center",
                     alignSelf: "center",
                     marginTop: wp("4"),
-
                     paddingBottom: wp("2"),
+                  }}
+                  onPress={() => {
+                    const data = {
+                      hash: selectedTestNet.hash,
+                      network: item.network,
+                      walletAddress: selectedTestNet.walletAddress,
+                    };
+                    dispatch(setSelectedTestNet(data));
+                    onPressCancel();
                   }}
                 >
                   <Image
                     source={item.imageUrl}
                     style={{
-                      width: wp("6"),
-                      height: wp("6"),
+                      width: wp("7.2"),
+                      height: wp("7.2"),
                       margin: wp("3"),
-                      tintColor: item.imageUrl == Images.Mantle && Colors.black,
+                      marginRight: wp("6"),
+                      borderRadius: wp("3.6"),
                     }}
                     resizeMode="contain"
                   />
                   <Text style={textStyle(4.5, Colors.black3)}>{item.name}</Text>
-                </View>
+                </TouchableOpacity>
               );
             }}
           />

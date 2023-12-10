@@ -8,6 +8,8 @@ import { Card } from "react-native-paper";
 import { Images } from "../Constants/Images";
 import { ComingSoonModal } from "../Components/ComingSoonModal";
 import { TransferCurrencyModal } from "../Components/TransferCurrencyModal";
+import { useAccount } from "wagmi";
+import { useSelector } from "react-redux";
 
 const TransactScreen = () => {
   const [comingSoonVisible, setComingSoonVisible] = useState(false);
@@ -140,12 +142,17 @@ export const TransCard = ({ text, otherStyle, imgSrc, onPress }) => (
 );
 
 export const KeyCard = () => {
+  const { address, isConnecting, isDisconnected } = useAccount();
+  const { userInfoData, selectedTestNet, networkId } = useSelector(
+    (state) => state.userInfo
+  );
+
   return (
     <View style={styles.keyCont}>
       <Text
         style={[textStyle(2.8, Colors.black, "600"), { textAlign: "center" }]}
       >
-        0x1E27090e6842a20b3dAF4621AFD20D44479d780b
+        {selectedTestNet?.walletAddress}
       </Text>
     </View>
   );

@@ -22,6 +22,7 @@ import LoginScreen from "../Screens/LoginScreen";
 import SettingsScreen from "../Screens/SettingsScreen";
 import OnBoardingScreen from "../Screens/OnBoardingScreen";
 import RecoveryGuardiansScreen from "../Screens/RecoveryGuardiansScreen";
+import { Images } from "../Constants/Images";
 
 const Route = () => {
   const Stack = createNativeStackNavigator();
@@ -29,7 +30,7 @@ const Route = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName={Screens.BottomBar}
+        initialRouteName={Screens.Splash}
       >
         <Stack.Screen name={Screens.Splash} component={SplashScreen} />
         <Stack.Screen
@@ -83,23 +84,26 @@ const BottomBar = () => {
       <Tab.Screen
         name={Screens.Wallet}
         component={WalletScreen}
-        options={{ tabBarIcon: "circle", tabBarColor: "black" }}
+        options={{ tabBarIcon: "wallet", tabBarColor: "black" }}
       />
 
       <Tab.Screen
         name={Screens.Transact}
         component={TransactScreen}
-        options={{ tabBarIcon: "circle", tabBarColor: "black" }}
+        options={{
+          tabBarIcon: "repeat",
+          tabBarColor: "black",
+        }}
       />
       <Tab.Screen
         name={Screens.Activity}
         component={ActivityScreen}
-        options={{ tabBarIcon: "circle", tabBarColor: "black" }}
+        options={{ tabBarIcon: "history", tabBarColor: "black" }}
       />
       <Tab.Screen
         name={Screens.Recovery}
         component={RecoveryScreen}
-        options={{ tabBarIcon: "circle", tabBarColor: "black" }}
+        options={{ tabBarIcon: "refresh", tabBarColor: "black" }}
       />
     </Tab.Navigator>
   );

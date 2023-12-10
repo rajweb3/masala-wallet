@@ -6,6 +6,7 @@ import {
   GET_WALLET_TX_HISTORY,
   WALLET_CREATE,
   WALLET_EXECUTE,
+  WALLET_LOGIN,
 } from "./EndPoint";
 
 export const createWalletApi = (data) => {
@@ -16,6 +17,13 @@ export const createWalletApi = (data) => {
   });
 };
 
+export const loginApi = (data) => {
+  return baseApiCall({
+    url: WALLET_LOGIN,
+    method: "post",
+    data,
+  });
+};
 export const executeWalletApi = (data) => {
   return baseApiCall({
     url: WALLET_EXECUTE,
@@ -31,9 +39,9 @@ export const getWalletBalanceApi = () => {
   });
 };
 
-export const getWalletTxHistoryApi = () => {
+export const getWalletTxHistoryApi = (chainId, address) => {
   return baseApiCall({
-    url: GET_WALLET_TX_HISTORY + "/" + ChainId + "/" + Address,
+    url: GET_WALLET_TX_HISTORY + "/" + chainId + "/" + address,
     method: "get",
   });
 };

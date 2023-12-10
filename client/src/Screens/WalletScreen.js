@@ -29,61 +29,91 @@ import { TokenData } from "../Constants/TokenData";
 import RNHash, { CONSTANTS } from "react-native-hash";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AsData } from "../Constants/AsData";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getUserInfo,
+  setSelectedTestNet,
+} from "../Core/Redux/Slices/GetUserInfoSlice";
+import Clipboard from "@react-native-clipboard/clipboard";
+import Utility from "../Constants/Utility";
+import { ChainConfig } from "../Constants/ChainConfig";
 
 const WalletScreen = () => {
   const [balance, setBalance] = useState();
+  const dispatch = useDispatch();
 
   const { address, isConnecting, isDisconnected } = useAccount();
   const { open, selectedNetworkId } = useWeb3ModalState();
+  const { userInfoData, networkName, selectedTestNet, networkId } = useSelector(
+    (state) => state.userInfo
+  );
+
+  console.log("selectedTestNet", selectedTestNet);
 
   useEffect(() => {
-    AsyncStorage.setItem(AsData.LoginDone, "RecoverySetup");
-  }, []);
-
-  const wagmiAddress = () => {
-    if (isConnecting) return <Text>Connecting…</Text>;
-    if (isDisconnected) return <Text>Disconnected</Text>;
-    return (
-      <Text
-        style={{
-          backgroundColor: "pink",
-          fontSize: 22,
-          color: "black",
-          fontWeight: "700",
-        }}
-      >
-        {address}
-      </Text>
-    );
-  };
-
-  useEffect(() => {
-    axios
-      .get(
-        BASE_URL +
-          GET_WALLET_BALANCE +
-          "/534351/0x171839E7c240fCA798B1aC608daBaA1321312276"
-      )
+    AsyncStorage.getItem(AsData.AfterLoginData)
+      .then(JSON.parse)
       .then((res) => {
-        console.log("res axios", res?.data);
-        setBalance(res?.data?.data);
-        // navigation.reset({ routes: [{ name: Screens.BottomBar }] });
-      })
-      .catch((err) => {
-        console.log("err ---->", err);
-        // console.log("err local", err);
-        // console.log("err local response", err?.response);
-        // console.log("err local data", err?.data);
+        console.log("res---->", res);
+        dispatch(getUserInfo(res));
+        const data = {
+          hash: res[0]?.hash,
+          network: ChainConfig[0].network,
+          walletAddress: res[0]?.walletAddress,
+        };
+        dispatch(setSelectedTestNet(data));
       });
   }, []);
 
+  console.log("userInfoData", userInfoData);
+
+  useEffect(() => {
+    console.log("selectedTestNet", selectedTestNet);
+    console.log("networkId", networkId);
+  }, [selectedTestNet, networkId]);
+
+  useEffect(() => {
+    console.log(
+      "selectedTestNet?.walletAddress",
+      selectedTestNet?.walletAddress
+    );
+    console.log("networkId", networkId);
+    if (selectedTestNet && networkId) {
+      console.log("fetchBalance");
+      axios
+        .get(
+          BASE_URL +
+            GET_WALLET_BALANCE +
+            "/" +
+            networkId +
+            "/" +
+            selectedTestNet?.walletAddress
+        )
+        .then((res) => {
+          console.log("res axios", res?.data);
+          setBalance(res?.data?.data);
+          // navigation.reset({ routes: [{ name: Screens.BottomBar }] });
+        })
+        .catch((err) => {
+          console.log("err ---->", err);
+          // console.log("err local", err);
+          // console.log("err local response", err?.response);
+          // console.log("err local data", err?.data);
+        });
+    }
+  }, [selectedTestNet, networkId]);
+
+  console.log("selectedNetworkId", selectedTestNet?.network);
+
+  console.log("balance", balance);
+
   return (
     <View style={styles.cont}>
-      <MainHeader text={"Polygon"} />
+      <MainHeader />
       <ScrollView>
         <WalletCard balance={balance} />
-        <W3mButton />
-        <Web3Modal />
+        {/* <W3mButton />
+        <Web3Modal /> */}
         <View style={styles.tokenCont}>
           <Text style={[textStyle(6.4, Colors.black)]}>Tokens</Text>
           <FlatList
@@ -112,7 +142,16 @@ const styles = StyleSheet.create({
   },
 });
 
-export const MainHeader = ({ text }) => {
+export const MainHeader = () => {
+  const accData = useAccount();
+  const { userInfoData, networkName, selectedTestNet, networkId } = useSelector(
+    (state) => state.userInfo
+  );
+
+  // console.log("chainId", chainId);
+
+  // console.log("accData _provider", accData?.connector);
+
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   return (
@@ -128,10 +167,10 @@ export const MainHeader = ({ text }) => {
       <IconButton
         icon={() => (
           <Image
-            source={Images.Wallet}
+            source={Images.Splash}
             style={{
-              width: hp("3.2"),
-              height: hp("3.2"),
+              width: hp("3.5"),
+              height: hp("3.5"),
             }}
             resizeMode="contain"
           />
@@ -158,7 +197,7 @@ export const MainHeader = ({ text }) => {
           }}
           resizeMode="contain"
         />
-        <Text style={textStyle(5.6, Colors.black, "500")}>{text}</Text>
+        <Text style={textStyle(5.6, Colors.black, "500")}>{networkName}</Text>
         <Image
           source={Images.down}
           style={{
@@ -197,7 +236,9 @@ export const MainHeader = ({ text }) => {
 
 const WalletCard = ({ balance }) => {
   const { address, isConnecting, isDisconnected } = useAccount();
-
+  const { userInfoData, selectedTestNet, networkId } = useSelector(
+    (state) => state.userInfo
+  );
   console.log("isDisconnected", isDisconnected);
   console.log("address", address);
 
@@ -226,9 +267,15 @@ const WalletCard = ({ balance }) => {
               { textAlign: "center", width: wp("60") },
             ]}
           >
-            0x1E27090e6842a20b3dAF4621AFD20D44479d780b
+            {selectedTestNet?.walletAddress}
           </Text>
-          <IconButton icon={"content-copy"} />
+          <IconButton
+            icon={"content-copy"}
+            onPress={() => {
+              Clipboard.setString(selectedTestNet?.walletAddress);
+              Utility.showToast("Copied Successfully");
+            }}
+          />
         </View>
       </View>
       <View style={wStyles.logoTitle}>
@@ -295,7 +342,7 @@ const TokenCard = ({ item }) => {
         style={{ flexDirection: "row", alignItems: "center", gap: wp("4") }}
       >
         <Image
-          source={Images.Thumbnail}
+          source={item.icon ? item?.icon : Images.Thumbnail}
           style={{ width: wp("9"), height: wp("9") }}
           resizeMode="contain"
         />

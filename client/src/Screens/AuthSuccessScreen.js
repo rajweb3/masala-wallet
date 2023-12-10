@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { Linking, StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
 import { AuthButton } from "./UserNameScreen";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Colors } from "../Constants/Colors";
@@ -8,12 +8,15 @@ import { Animations } from "../Constants/Animations";
 import { wp } from "../Constants/Constant";
 import { textStyle } from "../Constants/textStyle";
 import { Screens } from "../Stacks/Screens";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AsData } from "../Constants/AsData";
 
 const AuthSuccessScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const isFromGuardian = route?.params?.isFromGuardian;
   const isFromRecovery = route?.params?.isFromRecovery;
+  const [userData, setUserData] = useState();
 
   const authSuccess = `YAY! 🚀🥳${"\n"}Your wallet has been setup!`;
   const guardianSuccess = `YAY! 🚀🥳${"\n"}Your wallet guardians & recovery has been setup!`;
@@ -23,6 +26,15 @@ const AuthSuccessScreen = () => {
     : isFromGuardian
     ? guardianSuccess
     : authSuccess;
+
+  useEffect(() => {
+    AsyncStorage.getItem(AsData.AfterLoginData)
+      .then(JSON.parse)
+      .then((res) => {
+        console.log("res AfterLoginData", res[0]);
+        setUserData(res[0]);
+      });
+  }, []);
 
   return (
     <View style={styles.cont}>
@@ -54,7 +66,8 @@ const AuthSuccessScreen = () => {
             width: wp("84"),
           }}
         >
-          Address: {"\n"}0x1E27090e6842a20b3dAF4621AFD20D44479d780b
+          Address: {"\n"}
+          {userData.walletAddress}
         </Text>
       )}
       <Text
@@ -62,6 +75,10 @@ const AuthSuccessScreen = () => {
           ...textStyle(3.8, Colors.black, "500"),
           textAlign: "center",
           marginTop: isFromGuardian ? wp("10") : wp("6"),
+          textDecorationLine: "underline",
+        }}
+        onPress={() => {
+          Linking.openURL(userData?.hash);
         }}
       >
         View Tx on Explorer
@@ -69,10 +86,11 @@ const AuthSuccessScreen = () => {
       <AuthButton
         text={isFromGuardian ? "Finish" : "Next"}
         onPress={() => {
-          if (isFromRecovery) {
+          if (isFromRecovery || isFromGuardian) {
             navigation.reset({ routes: [{ name: Screens.BottomBar }] });
+            AsyncStorage.setItem(AsData.LoginDone, "BottomBar");
           } else {
-            navigation.reset({ routes: [{ name: Screens.Guardian }] });
+            navigation.reset({ routes: [{ name: Screens.RecoveryGuardians }] });
           }
         }}
       />

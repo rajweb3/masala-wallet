@@ -9,6 +9,9 @@ import { textStyle } from "../Constants/textStyle";
 import { Screens } from "../Stacks/Screens";
 import axios from "axios";
 import Utility from "../Constants/Utility";
+import { BASE_URL } from "../Core/ApiCall/EndPoint";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AsData } from "../Constants/AsData";
 
 const GuardianScreen = () => {
   const navigation = useNavigation();
@@ -16,19 +19,26 @@ const GuardianScreen = () => {
   const [usertwo, setUserTwo] = useState();
   const [userThree, setUserThree] = useState();
   const [selectedUsers, setSelectedUsers] = useState([]);
-  const [user1Selected, setUser1Selected] = useState(true);
-  const [user2Selected, setUser2Selected] = useState(true);
-  const [user3Selected, setUser3Selected] = useState(true);
+  const [user1Selected, setUser1Selected] = useState("checked");
+  const [user2Selected, setUser2Selected] = useState("checked");
+  const [user3Selected, setUser3Selected] = useState("checked");
 
   const emailOne = "mmoniratna@gmail.com";
   const emailTwo = "boghranirav@gmail.com";
   const emailThree = "moniratna@nordfinance.io";
-  const urlOne = `http://localhost:1555/celo-auth/lookup?handle=${emailOne}&identifierType=google`;
-  const urlTwo = `http://localhost:1555/celo-auth/lookup?handle=${emailTwo}&identifierType=google`;
-  const urlThree = `http://localhost:1555/celo-auth/lookup?handle=${emailThree}&identifierType=google`;
+  const BASE_URL2 =
+    "https://c0ad-2401-4900-4e64-cac7-a816-d0a2-4299-5461.ngrok-free.app/";
+  const urlOne =
+    BASE_URL + `celo-auth/lookup?handle=${emailOne}&identifierType=google`;
+  const urlTwo =
+    BASE_URL + `celo-auth/lookup?handle=${emailTwo}&identifierType=google`;
+  const urlThree =
+    BASE_URL + `celo-auth/lookup?handle=${emailThree}&identifierType=google`;
   const fetchData = (url) => {
     return fetch(url)
       .then((response) => {
+        console.log("response", JSON.stringify(response));
+        console.log("response data", JSON.stringify(response?.data));
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -46,6 +56,7 @@ const GuardianScreen = () => {
   const callApi = () => {
     Promise.all([fetchData(urlOne), fetchData(urlTwo), fetchData(urlThree)])
       .then((data) => {
+        console.log("data", data.data[0]);
         // Handle the results from all APIs
         const result1 = data[0];
         const result2 = data[1];
@@ -90,14 +101,14 @@ const GuardianScreen = () => {
       <AuthButton
         text={"Next"}
         onPress={() => {
-          let h = [];
-          user1Selected && h.push(user1Selected);
-          user2Selected && h.push(user2Selected);
-          user3Selected && h.push(user3Selected);
-          console.log("h --->", h);
-          if (h?.length < 3) {
-            Utility.showError("Minimum 3 Guardians should be selected");
-          } else {
+          console.log("user1Selected", user1Selected);
+          console.log("user2Selected", user2Selected);
+          console.log("user3Selected", user3Selected);
+          if (
+            user1Selected == "checked" &&
+            user2Selected == "checked" &&
+            user3Selected == "checked"
+          ) {
             let gData = [
               {
                 walletAddress: userOne,
@@ -112,9 +123,12 @@ const GuardianScreen = () => {
                 userEmail: emailThree,
               },
             ];
+            AsyncStorage.setItem(AsData.GuardianData, JSON.stringify(gData));
             navigation.navigate(Screens.ConfirmGuardian, {
               guardianData: gData,
             });
+          } else {
+            Utility.showError("Minimum 3 Guardians should be selected");
           }
         }}
         otherStyle={{ marginTop: wp("12") }}
@@ -163,12 +177,12 @@ export const GuardianCard = ({
     >
       {hideCheckBox != true && (
         <Checkbox
-          status={checked ? "checked" : "unchecked"}
+          status={selectedUsers}
           onPress={() => {
-            setChecked(!checked);
-            checked ? setSelectedUsers(true) : setSelectedUsers(false);
+            selectedUsers == "checked"
+              ? setSelectedUsers("unchecked")
+              : setSelectedUsers("checked");
           }}
-          disabled={true}
         />
       )}
       <TouchableOpacity
@@ -177,9 +191,10 @@ export const GuardianCard = ({
           width: hideCheckBox ? wp("80") : wp("70"),
         }}
         onPress={() => {
-          setChecked(!checked);
+          selectedUsers == "checked"
+            ? setSelectedUsers("unchecked")
+            : setSelectedUsers("checked");
         }}
-        disabled={true}
       >
         <Text style={textStyle(5, Colors.black2)}>{userEmail}</Text>
         <Text
