@@ -1,44 +1,44 @@
 import { BRAND } from "@/types/brand";
 import Image from "next/image";
 
-const brandData: BRAND[] = [
+const brandData: any[] = [
 	{
 		logo: "/images/brand/brand-01.svg",
-		name: "Google",
-		visitors: 3.5,
-		revenues: "5,768",
+		number: 1,
+		email: "moniratna@nordfinance.io",
+		address: "0xDB1Ad91E5A5a2E2c868d9b75C65d56c4740B7808",
 		sales: 590,
 		conversion: 4.8,
 	},
 	{
 		logo: "/images/brand/brand-02.svg",
-		name: "Twitter",
-		visitors: 2.2,
-		revenues: "4,635",
+		number: 2,
+		email: "mmoniratna@gmail.com",
+		address: "0xDB1Ad91E5A5a2E2c868d9b75C65d56c4740B7808",
 		sales: 467,
 		conversion: 4.3,
 	},
 	{
 		logo: "/images/brand/brand-03.svg",
-		name: "Github",
-		visitors: 2.1,
-		revenues: "4,290",
+		number: 3,
+		email: "moniratna.munshi@gmail.com",
+		address: "0xDB1Ad91E5A5a2E2c868d9b75C65d56c4740B7808",
 		sales: 420,
 		conversion: 3.7,
 	},
 	{
 		logo: "/images/brand/brand-04.svg",
-		name: "Vimeo",
-		visitors: 1.5,
-		revenues: "3,580",
+		number: 4,
+		email: "moniratna.munshi123@gmail.com",
+		address: "0xDB1Ad91E5A5a2E2c868d9b75C65d56c4740B7808",
 		sales: 389,
 		conversion: 2.5,
 	},
 	{
 		logo: "/images/brand/brand-05.svg",
-		name: "Facebook",
-		visitors: 3.5,
-		revenues: "6,768",
+		number: 5,
+		email: "moniratna@nordfinance.io",
+		address: "0xDB1Ad91E5A5a2E2c868d9b75C65d56c4740B7808",
 		sales: 390,
 		conversion: 4.2,
 	},
@@ -81,16 +81,16 @@ const TableOne = () => {
 					>
 						<div className="flex items-center gap-3 p-2.5 xl:p-5">
 							<p className="hidden text-black text-right dark:text-white sm:block">
-								{brand.name}
+								{brand.number}
 							</p>
 						</div>
 
-						<div className="flex items-center justify-end p-2.5 xl:p-5">
-							<p className="text-black dark:text-white">{brand.visitors}K</p>
+						<div className="flex items-center justify-start p-2.5 xl:p-5">
+							<p className="text-black dark:text-white">{brand.email}</p>
 						</div>
 
-						<div className="flex items-center justify-end p-2.5 xl:p-5">
-							<p className="text-meta-3">${brand.revenues}</p>
+						<div className="flex items-center justify-start p-2.5 xl:p-5">
+							<p className="text-meta-3">${brand.address}</p>
 						</div>
 					</div>
 				))}
