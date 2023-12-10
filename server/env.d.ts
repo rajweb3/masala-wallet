@@ -20,6 +20,7 @@ declare global {
       CELO_BASIC_FACTORY_CONTRACT: string;
       POLYGON_BASIC_FACTORY_CONTRACT: string;
       X1_BASIC_FACTORY_CONTRACT: string;
+      AIRSTACK_KEY: string;
     }
   }
 }
