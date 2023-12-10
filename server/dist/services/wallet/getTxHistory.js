@@ -26,6 +26,9 @@ const getTxHistoryService = (req, res) => __awaiter(void 0, void 0, void 0, func
         if (!network.status || !network.data) {
             return (0, commonResponse_1.requestFailed)(res, httpStatus_1.default.BAD_REQUEST, network.message);
         }
+        if (!network.data.status) {
+            return (0, commonResponse_1.requestFailed)(res, httpStatus_1.default.METHOD_NOT_ALLOWED, "Network Not Supported!");
+        }
         if (network.data.chain === networkConfig_1.ChainId.CELO_ALFAJORES) {
             const txHistory = yield getTxHistoryForCelo(address);
             return (0, commonResponse_1.responseSuccess)(res, httpStatus_1.default.OK, txHistory);

@@ -1,5 +1,5 @@
 "use strict";
-var _a, _b, _c, _d, _e, _f;
+var _a, _b, _c, _d, _e, _f, _g;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getNetworkInformation = exports.networkInfo = exports.ChainId = exports.NetworkType = void 0;
 const commonResponse_1 = require("./commonResponse");
@@ -17,6 +17,7 @@ var ChainId;
     ChainId["ARBITRUM_GOERLI"] = "421613";
     ChainId["CELO_ALFAJORES"] = "44787";
     ChainId["POLYGON_MAINNET"] = "137";
+    ChainId["OKX"] = "195";
 })(ChainId || (exports.ChainId = ChainId = {}));
 exports.networkInfo = [
     {
@@ -47,7 +48,7 @@ exports.networkInfo = [
         explorer: `https://sepolia-explorer.base.org`,
         covalentChainId: (0, covalentInterfaces_1.getCovalentChainName)("base-testnet"),
         contractAddress: ((_c = process.env) === null || _c === void 0 ? void 0 : _c.BASE_BASIC_FACTORY_CONTRACT) || "",
-        status: true,
+        status: false,
     },
     {
         name: "ARBITRUM_GOERLI",
@@ -57,7 +58,7 @@ exports.networkInfo = [
         explorer: `https://testnet.arbiscan.io`,
         covalentChainId: (0, covalentInterfaces_1.getCovalentChainName)("arbitrum-goerli"),
         contractAddress: ((_d = process.env) === null || _d === void 0 ? void 0 : _d.ARBITRUM_BASIC_FACTORY_CONTRACT) || "",
-        status: false,
+        status: true,
     },
     {
         name: "CELO_ALFAJORES",
@@ -67,7 +68,7 @@ exports.networkInfo = [
         explorer: `https://alfajores.celoscan.io/`,
         covalentChainId: null,
         contractAddress: ((_e = process.env) === null || _e === void 0 ? void 0 : _e.CELO_BASIC_FACTORY_CONTRACT) || "",
-        status: false,
+        status: true,
     },
     {
         name: "POLYGON_MAINNET",
@@ -76,7 +77,17 @@ exports.networkInfo = [
         providerUrl: `https://polygon-mainnet.infura.io`,
         explorer: `https://polygonscan.com`,
         covalentChainId: (0, covalentInterfaces_1.getCovalentChainName)("polygon-zkevm-mainnet"),
-        contractAddress: ((_f = process.env) === null || _f === void 0 ? void 0 : _f.CELO_BASIC_FACTORY_CONTRACT) || "",
+        contractAddress: ((_f = process.env) === null || _f === void 0 ? void 0 : _f.POLYGON_BASIC_FACTORY_CONTRACT) || "",
+        status: true,
+    },
+    {
+        name: "OKX",
+        chain: ChainId.OKX,
+        type: NetworkType.TESTNET,
+        providerUrl: `https://testrpc.x1.tech`,
+        explorer: `https://www.oklink.com/x1-test`,
+        covalentChainId: null,
+        contractAddress: ((_g = process.env) === null || _g === void 0 ? void 0 : _g.X1_BASIC_FACTORY_CONTRACT) || "",
         status: true,
     },
 ];

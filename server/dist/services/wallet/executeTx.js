@@ -32,6 +32,9 @@ const executeTxService = (req, res) => __awaiter(void 0, void 0, void 0, functio
         if (!network.status || !network.data) {
             return (0, commonResponse_1.requestFailed)(res, httpStatus_1.default.BAD_REQUEST, network.message);
         }
+        if (!network.data.status) {
+            return (0, commonResponse_1.requestFailed)(res, httpStatus_1.default.METHOD_NOT_ALLOWED, "Network Not Supported!");
+        }
         const zokratesHash = yield zokratesCrypto.generateStringHash(passwordHash);
         const nonce = generateRandomNonce();
         const { proof, inputs } = yield zokratesCrypto.generateProof(passwordHash, zokratesHash, nonce);

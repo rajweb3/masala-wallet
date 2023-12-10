@@ -27,6 +27,9 @@ const getBalanceService = (req, res) => __awaiter(void 0, void 0, void 0, functi
         if (!network.status || !network.data) {
             return (0, commonResponse_1.requestFailed)(res, httpStatus_1.default.BAD_REQUEST, network.message);
         }
+        if (!network.data.status) {
+            return (0, commonResponse_1.requestFailed)(res, httpStatus_1.default.METHOD_NOT_ALLOWED, "Network Not Supported!");
+        }
         let balance = "0";
         if (network.data.chain === networkConfig_1.ChainId.CELO_ALFAJORES) {
             balance = yield getBalanceForCelo(address);
