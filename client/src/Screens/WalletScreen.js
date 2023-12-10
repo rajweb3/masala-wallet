@@ -144,9 +144,8 @@ const styles = StyleSheet.create({
 
 export const MainHeader = () => {
   const accData = useAccount();
-  const { userInfoData, networkName, selectedTestNet, networkId } = useSelector(
-    (state) => state.userInfo
-  );
+  const { userInfoData, networkName, selectedTestNet, networkIcon } =
+    useSelector((state) => state.userInfo);
 
   // console.log("chainId", chainId);
 
@@ -190,10 +189,11 @@ export const MainHeader = () => {
         }}
       >
         <Image
-          source={Images.Vector}
+          source={networkIcon}
           style={{
             width: wp("5"),
             height: wp("5"),
+            borderRadius: wp("2.5"),
           }}
           resizeMode="contain"
         />

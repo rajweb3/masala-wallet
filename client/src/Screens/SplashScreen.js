@@ -12,16 +12,18 @@ const SplashScreen = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    AsyncStorage.getItem(AsData.LoginDone).then((res) => {
-      console.log("res AsyncStorage", res);
-      if (res && res == "RecoverySetup") {
-        navigation.replace(Screens.RecoveryGuardians);
-      } else if (res && res == "BottomBar") {
-        navigation.replace(Screens.BottomBar);
-      } else {
-        navigation.replace(Screens.Start);
-      }
-    });
+    setTimeout(() => {
+      AsyncStorage.getItem(AsData.LoginDone).then((res) => {
+        console.log("res AsyncStorage", res);
+        if (res && res == "RecoverySetup") {
+          navigation.replace(Screens.RecoveryGuardians);
+        } else if (res && res == "BottomBar") {
+          navigation.replace(Screens.BottomBar);
+        } else {
+          navigation.replace(Screens.Start);
+        }
+      });
+    }, 2000);
   }, []);
 
   return (

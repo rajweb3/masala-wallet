@@ -8,6 +8,7 @@ import Contacts from "react-native-contacts";
 import { Screens } from "../Stacks/Screens";
 import { AsData } from "../Constants/AsData";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Utility from "../Constants/Utility";
 
 const RecoveryGuardiansScreen = () => {
   const navigation = useNavigation();
@@ -20,18 +21,22 @@ const RecoveryGuardiansScreen = () => {
     })
       .then((res) => {
         console.log("Permission: ", res);
-        Contacts.getAll()
-          .then((contacts) => {
-            // work with contacts
-            // console.log("contacts --->", contacts);
-            navigation.navigate(Screens.Guardian);
-          })
-          .catch((e) => {
-            console.log("e------,", e);
-          });
+        if (res !== "never_ask_again") {
+          Contacts?.getAll()
+            .then((contacts) => {
+              // work with contacts
+              // console.log("contacts --->", contacts);
+              navigation.navigate(Screens.Guardian);
+            })
+            .catch((e) => {
+              console.log("e------,", e);
+            });
+        } else {
+          Utility.showError("Contact Permission Require");
+        }
       })
       .catch((error) => {
-        console.error("Permission error: ", error);
+        console.warn("Permission error: ", error);
       });
   };
 
