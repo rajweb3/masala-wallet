@@ -34,3 +34,13 @@ Technlogy used:
 => Backend Technologies: Node.js for server-side logic, integrating with cloud services {aws}.
 => APIs: For various integrations, including wallet functions and blockchain interactions.
 => UI/UX Design Tools: Tools for designing intuitive and user-friendly interfaces {figma}.
+
+### Basic Factory Contracts
+
+MANTLE=0xeB1787995535081A5F17a5C7F320614b92BeFf39
+SCROLL=0xEF211C252722D0d2C48482D4A5D1474792455eFF
+BASE=0xB88E8f9d0BD4D6771eda5EC37Cb2993cf9181e9D
+ARBITRUM=0xB88E8f9d0BD4D6771eda5EC37Cb2993cf9181e9D
+CELO=0xB88E8f9d0BD4D6771eda5EC37Cb2993cf9181e9D
+POLYGON=0xB88E8f9d0BD4D6771eda5EC37Cb2993cf9181e9D
+X1=0xB88E8f9d0BD4D6771eda5EC37Cb2993cf9181e9D
